@@ -1,0 +1,233 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+
+<body>
+    <div class="countainer-dashboard">
+
+        <img class="img" src="/img/background.jpg" />
+
+        <div class="content-dashboard">
+
+
+            <p>Wellcome to your page
+                <%= blogger.firstName %>
+            </p>
+
+            <div class="d-form-dashboard">
+                <form class="register-form" action='/blogger/dashboard/delete' method="get">
+                    <div class="content-reg-form">
+
+                        <div class="flex-row">
+                            <h4>userName:</h4>
+                            <h4>
+                                <%= blogger.userName %>
+                            </h4>
+                        </div>
+                        <div class="flex-row">
+                            <h4>password:</h4>
+                            <h4>
+                                <%= blogger.password %>
+                            </h4>
+
+                        </div>
+
+                        <div class="flex-row">
+                            <h4>lastName:</h4>
+                            <h4>
+                                <%= blogger.lastName %>
+                            </h4>
+                        </div>
+                        <div class="flex-row">
+                            <h4>firstName:</h4>
+                            <h4>
+                                <%= blogger.firstName %>
+                            </h4>
+                        </div>
+                        <div class="flex-row">
+                            <h4>phoneNumber:</h4>
+                            <h4>
+                                <%= blogger.phoneNumber %>
+                            </h4>
+                        </div>
+                        <div class="flex-row">
+
+                            <h4>gender:</h4>
+                            <h4>
+                                <%= blogger.gender %>
+                            </h4>
+
+                        </div>
+
+                    </div>
+                    <div>
+                        <button id="btn-update" class="btn btn-primary">update</button>
+                        <button type="submit" class="btn-delete btn btn-primary">delete</button>
+                    </div>
+
+                </form>
+                <div class="d-flex flex-row justify-content-between">
+
+                    <form action="/logout" method="get">
+                        <button type="submit" class="btn-delete btn btn-primary">logout</button>
+                    </form>
+               
+                        <a href="http://localhost:3000/blogger/dashboard/articles/seeMine"> <button
+                                id="btn-see-my-articles" class="btn btn-primary">See My Articles</button></a>
+
+                                <a href="http://localhost:3000/blogger/dashboard/articles/seeAll"> <button
+                                    id="btn-see-my-articles" class="btn btn-primary">See Whole Articles</button></a>
+                    <form action="/articles/creat" method="get">
+                        <button id="btn-creat-article" class="btn btn-primary">creatArticle</button>
+                    </form>
+
+                </div>
+                <h2>
+                    <%= err%>
+                </h2>
+            </div>
+
+            <div class="d-avatar">
+                <img class="avatar" src='/img/<%= srcImgBlogger%>' alt="bloggerImage">
+                <form action="/blogger/dashboard/avatar/update" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="img-reg">put yor image</label>
+                        <input type="file" id="updateAvatar" name="updateAvatar">
+                    </div>
+                    <button id="btn-creat-article" class="btn btn-primary">changeMyProfileImage</button>
+                </form>
+            </div>
+
+
+
+
+            <!-- updateBloggerInfo modal and form -->
+            <form action="/blogger/dashboard/update" method="post">
+                <div id="modal-update" class="modal">
+                    <div class="modal-body">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">update user info</h5>
+                                <button type="button" id="close-update" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"> &#10006</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group ">
+
+                                    <label for="userName">userName:</label>
+
+                                    <input type="text" id="userName" name="userName" placeholder="userName">
+                                    <h3>
+
+                                    </h3>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="password">password:</label>
+                                    <input type="password" id="password" name="password" placeholder="Password">
+                                    <p id="alarm-password"></p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstName">firstName:</label>
+                                    <input type="text" id="firstName" name="firstName" placeholder="firstName">
+                                    <p id="alarm-firstName"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName"> lastName:</label>
+                                    <input type="text" id="lastName" name="lastName" placeholder="lastName">
+                                    <p id="alarm-lastName"></p>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="userName">phoneNumber:</label>
+                                    <input type="tel" id="phoneNumber" name="phoneNumber"
+                                        placeholder="e.x: 09151234567">
+                                    <div>
+                                        <p id="alarm-phoneNumber"></p>
+                                    </div>
+
+                                </div>
+                                <div class="div-gender">
+
+                                    <h4>gender:</h4>
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male"
+                                        checked>
+                                    <label class="form-check-label" for="male">
+                                        male </label>
+                                    <input class="form-check-input" type="radio" name="gender" id="female"
+                                        value="female">
+                                    <label class="form-check-label" for="female">
+                                        female
+                                    </label>
+                                    <p id="alarm-gender"></p>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="close-update" type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <!-- creatNewArticle modal and form -->
+            <form action="/blogger/dashboard/articles/creat" method="post" enctype="multipart/form-data" role="form">
+                <div class="modal" id="modal-creatArticle">
+                    <div class="modal-body">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Creat New Article</h5>
+                                <button type="button" id="close-creatArticle" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"> &#10006</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="">
+
+                                    <label for="titleArticle">titleArticle:</label>
+
+                                    <input type="text" id="titleArticle" name="titleArticle" placeholder="titleArticle">
+                                </div>
+                                <div class="form-group ">
+                                    <label for="textArticle">textArticle:</label>
+                                    <textarea id="textArticle" name="textArticle" rows="10" cols="100">
+                                            </textarea>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="img-article">Image Of Article:</label>
+                                    <input type="file" id="imgArticle" name="imgArticle">
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="close-creatArticle" type="button" class="btn btn-secondary">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/js/ajax.js"></script>
+
+</html>

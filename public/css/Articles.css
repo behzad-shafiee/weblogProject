@@ -1,0 +1,55 @@
+.countainer {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+}
+
+.d-article {
+    margin: 20px 30px;
+    border: 2px black solid;
+    width: 400px;
+    height: 700px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.d-img-article {
+
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.img-blogger-article {
+    width: 200px;
+    height: 100px;
+
+}
+
+
+.d-summary {
+    overflow: hidden;
+    width: 100%;
+    height: 300px;
+}
+
+.d-info {
+
+    width: 100%;
+    height: 170px;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 800px;
+    margin: 20px auto 0;
+}
+

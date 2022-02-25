@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+
+<body>
+    <div class="countainer">
+        <img class="img" src="/img/background.jpg" />
+        <div class="div-form-reg">
+            <form class="register-form" action="/register/page/doing" method="post" role="form"
+                enctype="multipart/form-data">
+                <div class="content-reg-form">
+                    <%= error %>
+                        <div class="form-group">
+                            <label for="userName">userName:</label>
+
+                            <input class="position-right" type="text" id="userName" name="userName"
+                                placeholder="userName">
+
+
+
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="password">password:</label>
+                            <input class="position-right" type="password" id="password" name="password"
+                                placeholder="Password">
+                            <p id="alarm-password"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstName">firstName:</label>
+                            <input class="position-right" type="text" id="firstName" name="firstName"
+                                placeholder="firstName">
+                            <p id="alarm-firstName"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName"> lastName:</label>
+                            <input class="position-right" type="text" id="lastName" name="lastName"
+                                placeholder="lastName">
+                            <p id="alarm-lastName"></p>
+                        </div>
+                        <div class="form-group ">
+                            <label for="userName">phoneNumber:</label>
+                            <input class="position-right" type="tel" id="phoneNumber" name="phoneNumber"
+                                placeholder="e.x: 09151234567">
+                            <div>
+                                <p id="alarm-phoneNumber"></p>
+                            </div>
+
+                        </div>
+                        <div class="div-gender">
+
+                            <h4>gender:</h4>
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                            <label class="form-check-label" for="male">
+                                male </label>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                            <label class="form-check-label" for="female">
+                                female
+                            </label>
+                            <p id="alarm-gender"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="img-reg">put yor image</label>
+                            <input type="file" id="img-reg" name="avatar">
+                            <p id="img-reg"></p>
+                        </div>
+
+
+                </div>
+                <div>
+                    <button id="btn-signUp" type="submit" class="btn btn-primary">Sign up</button>
+                    <button class="btn-back-login btn btn-primary"><a class="back-login"
+                            href="http://localhost:3000/login/page">Back Login</a> </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/js/ajax.js"></script>
+
+</html>

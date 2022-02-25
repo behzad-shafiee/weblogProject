@@ -1,0 +1,116 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/Articles.css" />
+</head>
+
+<body>
+    <div class="title">
+        <a href="http://localhost:3000/blogger/dashboard"> <button id="btn-see-my-articles" class="btn btn-primary">back
+                dashboard</button></a>
+        <h1>
+            <%=msg%>
+        </h1>
+    </div>
+
+    <p style="display: none;">
+        <%= articles %>
+    </p>
+    <div class="countainer">
+
+        <% for(var index=0;index < articles.length ;index++ ){ %>
+            <div class="d-article">
+
+                <div class="d-img-article">
+                    <img class="img-blogger-article" src="/img/<%=articles[index].image%>">
+                </div>
+                <div class="d-summary">
+                    <h3>summary :</h3>
+                    <%= articles[index].text %>
+                </div>
+
+                <div class="d-info">
+
+                    <h3>writer:</h3>
+                    <%=articles[index].writer %>
+
+                        <h3> createdAt:</h3>
+                        <%=articles[index].createdAt %>
+                </div>
+
+                <div>
+
+                    <button class="btn-update-article btn-delete btn btn-primary">update</button>
+
+                    <a href="http://localhost:3000/blogger/dashboard/articles/seeMine"> <button id="btn-see-my-articles"
+                            class="btn btn-primary">seeArticlePerfectly</button></a>
+
+                    <form action="http://localhost:3000/blogger/dashboard/articles/seeMine/delete" method="get"></form>
+                    <button id="btn-see-my-articles" class="btn btn-primary">delete</button>
+                </div>
+
+            </div>
+            <% } %>
+
+                <div class="d-update-article">
+                    <form action="/blogger/dashboard/articles/seeMine/update" method="post" enctype="multipart/form-data"
+                        role="form">
+                        <div class="modal" id="modal-updateArticle">
+                            <div class="modal-body">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Update Article</h5>
+                                        <button type="button"  class="close-updateArticle btn-close"
+                                            data-bs-dismiss="modal" aria-label="Close"> &#10006</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="">
+
+                                            <label for="titleArticle">titleArticle:</label>
+
+                                            <input type="text" id="titleArticle" name="titleArticle"
+                                                placeholder="titleArticle">
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="textArticle">textArticle:</label>
+                                            <textarea id="textArticle" name="textArticle" rows="10" cols="100">
+                                                </textarea>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UpdateArticleImg">Image Of Article:</label>
+                                            <input type="file" id="UpdateArticleImg" name="UpdateArticleImg">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button  type="button"
+                                            class="close-updateArticle btn btn-secondary">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+    </div>
+
+
+
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/js/ajax.js"></script>
+
+</html>
