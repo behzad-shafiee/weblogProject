@@ -1,7 +1,7 @@
 
 
 
-$('#btn-update').click(function(e) {
+$('#btn-update').click(function (e) {
     e.preventDefault();
     const modalUupdate = $('#modal-update');
     modalUupdate.css({
@@ -9,7 +9,7 @@ $('#btn-update').click(function(e) {
     });
 });
 
-$('#close-update').click(function(e) {
+$('#close-update').click(function (e) {
     e.preventDefault();
     const modalUupdate = $('#modal-update');
     modalUupdate.css({
@@ -20,17 +20,17 @@ $('#close-update').click(function(e) {
 
 
 
-$('#btn-creat-article').click(function(e) {
+$('#btn-creat-article').click(function (e) {
     e.preventDefault();
-    const modalCreatArticle= $('#modal-creatArticle');
+    const modalCreatArticle = $('#modal-creatArticle');
     modalCreatArticle.css({
         'display': 'flex'
     });
 });
 
-$('#close-creatArticle').click(function(e) {
+$('#close-creatArticle').click(function (e) {
     e.preventDefault();
-    const modalCreatArticle= $('#modal-creatArticle');
+    const modalCreatArticle = $('#modal-creatArticle');
     modalCreatArticle.css({
         'display': 'none'
     });
@@ -39,19 +39,29 @@ $('#close-creatArticle').click(function(e) {
 
 
 
-$('.btn-update-article').click(function(e) {
+$('.btn-update-article').click(function (e) {
     e.preventDefault();
-    const modalUpdatetArticle= $('#modal-updateArticle');
+    const modalUpdatetArticle = $('#modal-updateArticle');
     modalUpdatetArticle.css({
         'display': 'flex'
     });
 });
 
-$('.close-updateArticle').click(function(e) {
+$('.close-updateArticle').click(function (e) {
     e.preventDefault();
-    const modalUpdatetArticle= $('#modal-updateArticle');
+    const modalUpdatetArticle = $('#modal-updateArticle');
     modalUpdatetArticle.css({
         'display': 'none'
     });
+});
+
+$('.btn-update-article').click(function (e) {
+
+
+    let idArticle = $('.idArticle');
+    let id = $('.p-id').attr('id-article');
+
+    idArticle.val(id);
+
 });
 

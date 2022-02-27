@@ -13,7 +13,8 @@ const articleSchema = new mongoose.Schema({
     "text": {
         type: String,
         required: [true, 'textArticle must filles'],
-        trim: true
+        trim: true,
+        default:null
     },
     "image": {
         type: String,

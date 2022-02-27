@@ -19,12 +19,13 @@
         </h1>
     </div>
 
-    <p style="display: none;">
-        <%= articles %>
-    </p>
-    <div class="countainer">
 
+    <div class="countainer">
+        <p style="display: none;">
+            <%= articles %>
+        </p>
         <% for(var index=0;index < articles.length ;index++ ){ %>
+            <p class="p-id" style="display: none;" id-article="<%= articles[index]._id %> "></p>
             <div class="d-article">
 
                 <div class="d-img-article">
@@ -32,7 +33,12 @@
                 </div>
                 <div class="d-summary">
                     <h3>summary :</h3>
-                    <%= articles[index].text %>
+                    <p>
+                        <%= (articles[index].text).slice(0,100) %>
+                    </p>
+
+
+
                 </div>
 
                 <div class="d-info">
@@ -56,51 +62,55 @@
                 </div>
 
             </div>
-            <% } %>
+            <div class="d-update-article">
 
-                <div class="d-update-article">
-                    <form action="/blogger/dashboard/articles/seeMine/update" method="post" enctype="multipart/form-data"
-                        role="form">
-                        <div class="modal" id="modal-updateArticle">
-                            <div class="modal-body">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Update Article</h5>
-                                        <button type="button"  class="close-updateArticle btn-close"
-                                            data-bs-dismiss="modal" aria-label="Close"> &#10006</button>
+                <form action="/blogger/dashboard/articles/seeMine/update" method="post" enctype="multipart/form-data" 
+                    role="form">
+                    <div class="modal" id="modal-updateArticle">
+                        <div class="modal-body">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Update Article</h5>
+                                    <button type="button" class="close-updateArticle btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"> &#10006</button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" style="display: none;" id-article="<%= articles[index]._id %> ">
+                                    <div class="">
+
+                                        <label for="titleArticle">titleArticle:</label>
+
+                                        <input type="text" id="titleArticle" name="titleArticle"
+                                            placeholder="titleArticle">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="">
-
-                                            <label for="titleArticle">titleArticle:</label>
-
-                                            <input type="text" id="titleArticle" name="titleArticle"
-                                                placeholder="titleArticle">
-                                        </div>
-                                        <div class="form-group ">
-                                            <label for="textArticle">textArticle:</label>
-                                            <textarea id="textArticle" name="textArticle" rows="10" cols="100">
-                                                </textarea>
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="UpdateArticleImg">Image Of Article:</label>
-                                            <input type="file" id="UpdateArticleImg" name="UpdateArticleImg">
-
-                                        </div>
+                                    <div class="form-group ">
+                                        <label for="textArticle">textArticle:</label>
+                                        <textarea id="textArticle" name="textArticle" rows="10" cols="100">
+                                            </textarea>
 
                                     </div>
-                                    <div class="modal-footer">
-                                        <button  type="button"
-                                            class="close-updateArticle btn btn-secondary">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+
+                                    <div class="form-group">
+                                        <label for="UpdateArticleImg">Image Of Article:</label>
+                                        <input type="file" id="UpdateArticleImg" name="UpdateArticleImg">
+
                                     </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="close-updateArticle btn btn-secondary">Close</button>
+                                    <button id="save-update-article" type="submit" class="btn btn-primary">Save
+                                        changes</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <input class="idArticle" name="idArticle" idArtilce="<%=articles[index]._id %>" style="display: none;" />
+                </form>
+            </div>
+            <% } %>
+
+
 
     </div>
 

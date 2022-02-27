@@ -45,7 +45,7 @@ const bloggerSchema = new mongoose.Schema({
     },
     "avatar": {
         type: String,
-        default:"avatarDefault.jpg"
+        default:"avatarDefault.png"
     },
     "phoneNumber": {
         type: Number,
