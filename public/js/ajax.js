@@ -57,11 +57,17 @@ $('.close-updateArticle').click(function (e) {
 
 $('.btn-update-article').click(function (e) {
 
+    let parentBtn = $(this).parent();
+    let idArticle = parentBtn.attr('idArticle');
 
-    let idArticle = $('.idArticle');
-    let id = $('.p-id').attr('id-article');
 
-    idArticle.val(id);
+    $('#idArticle').val(idArticle)
+    console.log( $('#idArticle').val());
+
+
+
+
 
 });
+
 

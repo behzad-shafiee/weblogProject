@@ -246,7 +246,7 @@ module.exports = new class {
 
 
         try {
-            console.log(req.session.blogger);
+
             const writer = req.session.blogger.userName;
             const articles = await Article.find({}).sort({ createdAt: -1 });
             res.render('wholeArticles', { msg: 'wellcome articlesPage', articles: articles });
@@ -266,7 +266,9 @@ module.exports = new class {
         try {
 
 
+            console.log(req.body);
             const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
+            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim()
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
             const dataArticle = {};
@@ -281,7 +283,7 @@ module.exports = new class {
 
             };
             if (req.file) {
-                // fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
+                fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
                 dataArticle.image = req.file.filename;
             };
             dataArticle.idArticle = idArticle;
@@ -307,16 +309,24 @@ module.exports = new class {
 
         try {
 
-
+            console.log(req.body);
             const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
+            const allArticle = await Article.find({});
+            console.log(req.session.blogger.userName);
+            console.log(article.writer);
+            console.log(req.session.blogger.userName !== article.writer);
             if (req.session.blogger.userName !== article.writer) {
+                if (req.file) {
 
-              return  res.render('bloggerArticles', { msg: 'access denied', articles: article });
+                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
+                }
+
+                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
 
             }
-            
+
             const dataArticle = {};
 
             for (var key in dataArticleTmp) {
@@ -329,7 +339,8 @@ module.exports = new class {
 
             };
             if (req.file) {
-                // fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
+                fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
+                console.log(path.join(__dirname, `../../public/img/${article.image}`));
                 dataArticle.image = req.file.filename;
             };
             dataArticle.idArticle = idArticle;
@@ -341,7 +352,7 @@ module.exports = new class {
                 image: dataArticle.image
             });
             const result = await updatedArticle.save();
-            res.redirect('/blogger/dashboard/articles/seeMine');
+            res.redirect('/blogger/dashboard/articles/seeAll');
 
 
         } catch (err) {

@@ -42,7 +42,7 @@
                         <h3> createdAt:</h3>
                         <%=articles[index].createdAt %>
                 </div>
-                <div>
+                <div idArticle=" <%=articles[index]._id %>">
 
                     <button class="btn-update-article btn-delete btn btn-primary">update</button>
 
@@ -54,51 +54,54 @@
 
                 </div>
             </div>
-            <% } %>
 
-                <div class="d-update-article">
-                    <form action="/blogger/dashboard/articles/seeAll/update" method="post" enctype="multipart/form-data" role="form"
-                        role="form">
-                        <div class="modal" id="modal-updateArticle">
-                            <div class="modal-body">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Creat New Article</h5>
-                                        <button type="button" class="close-updateArticle btn-close"
-                                            data-bs-dismiss="modal" aria-label="Close"> &#10006</button>
+
+            <div class="d-update-article">
+                <form action="/blogger/dashboard/articles/seeAll/update" method="post" enctype="multipart/form-data"
+                    role="form" role="form">
+                    <div class="modal" id="modal-updateArticle">
+                        <div class="modal-body">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">update Article</h5>
+                                  
+                                    <input type="text" style="display: none;" id="idArticle" name="idArticle">
+                                    <button type="button" class="close-updateArticle btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"> &#10006</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="">
+
+                                        <label for="titleArticle">titleArticle:</label>
+
+                                        <input type="text" id="titleArticle" name="titleArticle"
+                                            placeholder="titleArticle">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="">
-
-                                            <label for="titleArticle">titleArticle:</label>
-
-                                            <input type="text" id="titleArticle" name="titleArticle"
-                                                placeholder="titleArticle">
-                                        </div>
-                                        <div class="form-group ">
-                                            <label for="textArticle">textArticle:</label>
-                                            <textarea id="textArticle" name="textArticle" rows="10" cols="100">
+                                    <div class="form-group ">
+                                        <label for="textArticle">textArticle:</label>
+                                        <textarea id="textArticle" name="textArticle" rows="10" cols="100">
                                         </textarea>
 
-                                        </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="img-article">Image Of Article:</label>
-                                            <input type="file" id="imgArticle" name="imgArticle">
-
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="imgWholeArticlePage">Image Of Article:</label>
+                                        <input type="file" id="imgWholeArticlePage" name="imgWholeArticlePage">
 
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                            class="close-updateArticle btn btn-secondary">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="close-updateArticle btn btn-secondary">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                  
+                </form>
+            </div>
+            <% } %>
     </div>
 
 

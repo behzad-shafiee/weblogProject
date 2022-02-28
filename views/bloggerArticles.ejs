@@ -25,7 +25,6 @@
             <%= articles %>
         </p>
         <% for(var index=0;index < articles.length ;index++ ){ %>
-            <p class="p-id" style="display: none;" id-article="<%= articles[index]._id %> "></p>
             <div class="d-article">
 
                 <div class="d-img-article">
@@ -50,9 +49,9 @@
                         <%=articles[index].createdAt %>
                 </div>
 
-                <div>
+                <div idArticle=" <%=articles[index]._id %>">
 
-                    <button class="btn-update-article btn-delete btn btn-primary">update</button>
+                    <button id="btn-update-article" class="btn-update-article btn-delete btn btn-primary">update</button>
 
                     <a href="http://localhost:3000/blogger/dashboard/articles/seeMine"> <button id="btn-see-my-articles"
                             class="btn btn-primary">seeArticlePerfectly</button></a>
@@ -75,7 +74,8 @@
                                         aria-label="Close"> &#10006</button>
                                 </div>
                                 <div class="modal-body">
-                                    <input type="text" style="display: none;" id-article="<%= articles[index]._id %> ">
+                    
+                                    <input type="text" style="display: none;" id="idArticle" name="idArticle">
                                     <div class="">
 
                                         <label for="titleArticle">titleArticle:</label>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="idArticle" name="idArticle" idArtilce="<%=articles[index]._id %>" style="display: none;" />
+                   
                 </form>
             </div>
             <% } %>

@@ -19,28 +19,16 @@ if (config.error) {
 const creatAdmin = require('./creatAdmin');
 creatAdmin.creatAdmin();
 
-const Blogger = require('./module/blogger');
+
 const mainRoute=require('./src/apis/index');
-const multerRoute=require('./src/apis/blogger/multer');
-//blogger =>type
-//login => session
-//enter loginAdmin
-//ui
-
-
-
-
-
-
-
-
-
 
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -61,7 +49,11 @@ app.use(
 
 
 app.use('/', mainRoute);
-app.use('/',multerRoute)
+
+
+
+
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

@@ -10,7 +10,7 @@ const tools = require('../../tools/tools');
 
 const uploadImgArticle = tools.upload.single('imgArticle');
 const uploadUpdateArticle=tools.upload.single('UpdateArticleImg')
-const uploadUpdateArticleInWholePage=tools.upload.single('UpdateArticleImg')
+const uploadUpdateArticleInWholePage=tools.upload.single('imgWholeArticlePage')
 
 //articles
 router.get('/seeMine',controlers.showArticlesOfBlogger);
