@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/Articles.css" />
+</head>
+
+<body>
+    <div class="title">
+        <a href="http://localhost:3000/blogger/dashboard"> <button id="btn-see-my-articles"
+                class="btn btn-primary">Dashboard
+            </button></a>
+        <h1>
+            <%=msg%>
+        </h1>
+    </div>
+    <p style="display: none;">
+        <%= article %>
+    </p>
+    <div class="countainer">
+
+
+        <div class="d-article">
+            
+            <div class="d-img-article">
+                <img class="img-blogger-article" src="/img/<%=article.image%>">
+            </div>
+            <div>
+                <h3>Tittle:</h3>
+               <h5><%= article.title %></h5> 
+            </div>
+            <div class="d-summary">
+                <h3>text :</h3>
+                <%= article.text %>
+            </div>
+
+            <div class="d-info">
+
+                <h3>writer:</h3>
+                <%=article.writer %>
+
+                    <h3> createdAt:</h3>
+                    <%=article.createdAt %>
+            </div>
+          
+        </div>
+
+
+    </div>
+
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/js/ajax.js"></script>
+
+</html>

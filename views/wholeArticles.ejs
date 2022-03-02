@@ -42,16 +42,24 @@
                         <h3> createdAt:</h3>
                         <%=articles[index].createdAt %>
                 </div>
-                <div idArticle=" <%=articles[index]._id %>">
+                <div id="d-btn-article" idArticle=" <%=articles[index]._id %>">
 
                     <button class="btn-update-article btn-delete btn btn-primary">update</button>
 
-                    <a href="http://localhost:3000/blogger/dashboard/articles/seeMine"> <button id="btn-see-my-articles"
-                            class="btn btn-primary">seeArticlePerfectly</button></a>
+                    <form action="http://localhost:3000/blogger/dashboard/articles/seeAll/detailsOneArticle"
+                        method="post">
 
-                    <form action="http://localhost:3000/blogger/dashboard/articles/seeMine/delete" method="get"></form>
-                    <button id="btn-see-my-articles" class="btn btn-primary">delete</button>
+                        <input type="text" style="display: none;" id="article-details" name="idArticle">
+                        <button type="submit" id="btn-see-my-articles"
+                            class="btn-details-articles btn btn-primary">seeDetailsArticle</button>
+                    </form>
 
+
+                    <form action="http://localhost:3000/blogger/dashboard/articles/seeAll/delete" method="post">
+                        <input type="text" style="display: none;" class="article-delete" name="idArticle">
+                        <button type="submit" id="btn-delete-articles"
+                            class="btn-delete-articles btn btn-primary">Delete</button>
+                    </form>
                 </div>
             </div>
 
@@ -64,8 +72,8 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">update Article</h5>
-                                  
-                                    <input type="text" style="display: none;" id="idArticle" name="idArticle">
+
+                                    <input type="text" style="display: none;" id="article-update" name="idArticle">
                                     <button type="button" class="close-updateArticle btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"> &#10006</button>
                                 </div>
@@ -98,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
                 </form>
             </div>
             <% } %>

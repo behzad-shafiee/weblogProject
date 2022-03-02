@@ -55,19 +55,35 @@ $('.close-updateArticle').click(function (e) {
     });
 });
 
+
+
+//update,delete,seeDetailsArticle
 $('.btn-update-article').click(function (e) {
 
-    let parentBtn = $(this).parent();
-    let idArticle = parentBtn.attr('idArticle');
+    let idArticle = $('#d-btn-article').attr('idArticle');
+
+    $('#article-update').val(idArticle)
 
 
-    $('#idArticle').val(idArticle)
-    console.log( $('#idArticle').val());
+});
 
+$('.btn-delete-articles').click(function (e) {
+    let idArticle = $('#d-btn-article').attr('idArticle');
 
+    console.log(idArticle);
+    $('#article-delete').val(idArticle)
 
 
 
 });
 
+$('.btn-details-articles').click(function (e) {
+
+    let idArticle = $('#d-btn-article').attr('idArticle');
+    console.log(idArticle);
+
+    $('#article-details').val(idArticle)
+
+
+});
 

@@ -42,8 +42,11 @@ module.exports = new class {
     // blogger/dashboard
 
     showDashboardBlogger(req, res) {
+       
+         
+            res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
+     
 
-        res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
 
     }
 
@@ -230,6 +233,10 @@ module.exports = new class {
 
     async showArticlesOfBlogger(req, res) {
         try {
+            let page = req.params.page;
+            let count = req.params.count;
+            page = 1;
+            count = 4;
             const writer = req.session.blogger.userName;
             const articles = await Article.find({ writer }).sort({ createdAt: -1 });
             res.render('bloggerArticles', { msg: 'wellcome to your articlesPage', articles: articles });
@@ -268,7 +275,7 @@ module.exports = new class {
 
             console.log(req.body);
             const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
-            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim()
+            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim();
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
             const dataArticle = {};
@@ -299,7 +306,7 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of doUpdateArticle:${err}`);
+            console.log(`err of doUpdateInBloggerArticlePage:${err}`);
         }
     }
 
@@ -311,6 +318,7 @@ module.exports = new class {
 
             console.log(req.body);
             const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
+            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim();
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
             const allArticle = await Article.find({});
@@ -357,8 +365,114 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of doUpdateArticle:${err}`);
+            console.log(`err of doUpdateInWholeArticlePage:${err}`);
         }
+    }
+
+
+    async doDeleteInBloggerArticlePage(req, res) {
+
+        try {
+
+            const idArticle = req.body.idArticle.trim();
+            const result = await Article.findByIdAndRemove(idArticle);
+            const articles = await Article.find({ writer: req.session.blogger.userName });
+            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
+
+
+        } catch (err) {
+
+            console.log(`err of doDeleteInBloggerArticlePage:${err}`);
+        }
+    }
+
+
+    async doDeleteInBloggerArticlePage(req, res) {
+
+        try {
+
+            const idArticle = req.body.idArticle.trim();
+            const result = await Article.findByIdAndRemove(idArticle);
+            const articles = await Article.find({ writer: req.session.blogger.userName });
+            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
+
+
+        } catch (err) {
+
+            console.log(`err of doDeleteInBloggerArticlePage:${err}`);
+        }
+    }
+
+    async doDeleteInWholeArticlePage(req, res) {
+
+        try {
+            console.log(req.body);
+            const idArticle = req.body.idArticle.trim();
+            const article = await Article.findById(idArticle);
+            const allArticle = await Article.find({});
+            if (req.session.blogger.userName !== article.writer) {
+                if (req.file) {
+
+                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
+                }
+
+                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
+
+            }
+            const result = await Article.findByIdAndRemove(idArticle);
+            const articles = await Article.find({ writer: req.session.blogger.userName });
+            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
+
+
+        } catch (err) {
+
+            console.log(`err of doDeleteInWholeArticlePage:${err}`);
+        }
+    }
+
+
+    async showDetailsOneArticle(req, res) {
+
+        try {
+            const idArticle = req.body.idArticle.trim();
+            const article = await Article.findById(idArticle);
+            res.render('articlePage', { article, msg: null })
+
+
+        } catch (err) {
+
+            console.log(`err of showDetailsOneArticle:${err}`);
+
+        }
+
+    }
+
+
+    
+    async showDetailsOneArticleInWholePageArticle(req, res) {
+
+        try {
+
+            const idArticle = req.body.idArticle.trim();
+            const article = await Article.findById(idArticle);
+            if (req.session.blogger.userName !== article.writer) {
+                if (req.file) {
+
+                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
+                }
+
+                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
+
+            }
+            res.render('articlePage', { article, msg: null })
+
+
+        } catch (err) {
+
+            console.log(`err of showDetailsOneArticle:${err}`);
+
+        }
+
     }
 
 }

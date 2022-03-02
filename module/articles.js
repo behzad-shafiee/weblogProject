@@ -28,34 +28,13 @@ const articleSchema = new mongoose.Schema({
         required: [true, 'writer of articles must fill'],
     },
 
-},{
-    timestamps:true
-});
+},{timestamps:true});
 
 
 
 const Article = mongoose.model('Article', articleSchema);
 
 
-// async function creatArticle() {
 
-//     try {
-
-//         const myArticle = await new Article({
-
-//             title: 'animals',
-//             text: 'hello line',
-//             image: 'abd'
-//         });
-
-//         const result = myArticle.save();
-
-//     } catch (err) {
-
-//         console.log(`err of creatArticle`);
-//     }
-// }
-
-// creatArticle();
 
 module.exports = Article;

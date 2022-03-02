@@ -34,7 +34,7 @@
 
 
 .d-summary {
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
     height: 300px;
 }

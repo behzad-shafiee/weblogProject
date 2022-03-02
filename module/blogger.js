@@ -59,9 +59,9 @@ const bloggerSchema = new mongoose.Schema({
         },
         default: 'blogger'
     }
-});
+},{ timestamps:true});
 
-// bloggerSchema.plugin('timestamp');
+
 
 const Blogger = mongoose.model('Blogger', bloggerSchema);
 
