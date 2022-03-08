@@ -8,7 +8,7 @@ const tools = require('../tools/tools');
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
-const { findById } = require('../../module/blogger');
+
 
 
 
@@ -16,39 +16,38 @@ const { findById } = require('../../module/blogger');
 
 module.exports = new class {
 
+    backDashboar(req, res) {
 
+        if (req.session.blogger.role === 'admin') {
+            return req.params.role = 'admin'
+        }
+
+        req.params.role = 'blogger'
+    }
+
+    showDashboardUser(req, res) {
+        if (req.session.blogger.role === 'admin') {
+            req.params.role = 'admin'
+            return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+        }
+        req.params.role = 'blogger'
+        res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'blogger' });
+
+    }
 
     async showBloggers(req, res) {
         try {
 
-            console.log(req.session.blogger);
-            if (req.session.blogger) {
-                if (req.session.blogger.role === 'admin') {
-                    const users = await Blogger.find({ role: 'blogger' });
-                    res.render('adminDashboard', { users });
-                }
+            const users = await Blogger.find({ $ne: { role: 'admin' } });
+            res.render('listOfBloggers', { msg: 'wellcome admin', users });
 
-            }
-            else {
-                res.render('loginPage', { msg: 'something is wrong!!!' })
-            }
+        } catch (err) {
 
         }
-        catch (err) {
-            console.log(`err of show bloggers :${err}`);
-        }
-
-    }
-    // blogger/dashboard
-
-    showDashboardBlogger(req, res) {
-       
-         
-            res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
-     
 
 
     }
+
 
     async doUpdateBloggerInfo(req, res) {
 
@@ -78,7 +77,7 @@ module.exports = new class {
 
             const blogger = await Blogger.findByIdAndRemove(req.session.blogger._id);
             const articles = await Article.deleteMany({ writer: blogger.userName });
-            console.log(articles);
+
             res.clearCookie('user_side');
             req.session.destroy(err => {
                 if (err) {
@@ -109,30 +108,26 @@ module.exports = new class {
 
             if (!blogger) {
                 return res.render('loginPage', { msg: 'something is wrong!!!' });
-            } else {
-
-
-
-                const validatePass = await bcrypt.compare(req.body.password, blogger.password);
-
-                if (!validatePass) {
-                    return res.render('loginPage', { msg: 'something is wrong!!!' });
-                }
-                blogger.password = req.body.password;
-                res.cookie('user_side', blogger._id);
-                req.session.blogger = blogger;
-                if (blogger.role == 'admin') {
-
-                    const users = await Blogger.find({ role: 'blogger' });
-                    res.render('adminDashboard', { users });
-                    return
-
-                };
-                console.log(req.session.blogger._id);
-                res.redirect('/blogger/dashboard');
-                // res.render('dashboard', { blogger, err: '', srcImgBlogger: req.session.blogger["avatar"] });
 
             }
+
+            const validatePass = await bcrypt.compare(req.body.password, blogger.password);
+
+            if (!validatePass) {
+                return res.render('loginPage', { msg: 'something is wrong!!!' });
+            }
+            blogger.password = req.body.password;
+            res.cookie('user_side', blogger._id);
+            req.session.blogger = blogger;
+            console.log(req.session.blogger._id);
+            if (blogger.role === 'admin') {
+
+                return res.redirect('/admin/dashboard');
+            }
+
+
+            res.redirect('/blogger/dashboard');
+
 
         } catch (err) {
             console.log(`not found err:${err}`);
@@ -233,13 +228,19 @@ module.exports = new class {
 
     async showArticlesOfBlogger(req, res) {
         try {
+
             let page = req.params.page;
             let count = req.params.count;
             page = 1;
             count = 4;
             const writer = req.session.blogger.userName;
             const articles = await Article.find({ writer }).sort({ createdAt: -1 });
-            res.render('bloggerArticles', { msg: 'wellcome to your articlesPage', articles: articles });
+            if (req.session.blogger.role === 'admin') {
+
+                return res.render('userArticles', { msg: 'wellcome to your articlesPage', articles: articles, role: req.session.blogger.role });
+            }
+
+            res.render('userArticles', { msg: 'wellcome to your articlesPage', articles: articles, role: req.session.blogger.role });
 
         } catch (err) {
 
@@ -256,7 +257,13 @@ module.exports = new class {
 
             const writer = req.session.blogger.userName;
             const articles = await Article.find({}).sort({ createdAt: -1 });
-            res.render('wholeArticles', { msg: 'wellcome articlesPage', articles: articles });
+            if (req.session.blogger.role === 'admin') {
+
+                return res.render('wholeArticles', { msg: 'wellcome articlesPage', articles: articles, role: 'admin' });
+
+            };
+
+            res.render('wholeArticles', { msg: 'wellcome articlesPage', articles: articles, role: 'blogger' });
 
         } catch (err) {
 
@@ -267,7 +274,7 @@ module.exports = new class {
 
 
 
-    async doUpdateInBloggerArticlePage(req, res, nex) {
+    async doUpdateArticle(req, res, nex) {
 
 
         try {
@@ -302,6 +309,11 @@ module.exports = new class {
                 image: dataArticle.image
             });
             const result = await updatedArticle.save();
+            if (req.session.blogger.role === 'admin') {
+
+                return res.redirect('/admin/dashboard/articles/seeMine');
+            }
+
             res.redirect('/blogger/dashboard/articles/seeMine');
 
         } catch (err) {
@@ -311,73 +323,17 @@ module.exports = new class {
     }
 
 
-    async doUpdateInWholeArticlePage(req, res, nex) {
 
+
+    async doDeleteArticle(req, res) {
 
         try {
-
             console.log(req.body);
-            const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
-            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim();
-            const idArticle = dataArticleTmp.idArticle.trim();
-            const article = await Article.findById(idArticle);
-            const allArticle = await Article.find({});
-            console.log(req.session.blogger.userName);
-            console.log(article.writer);
-            console.log(req.session.blogger.userName !== article.writer);
-            if (req.session.blogger.userName !== article.writer) {
-                if (req.file) {
-
-                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
-                }
-
-                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
-
-            }
-
-            const dataArticle = {};
-
-            for (var key in dataArticleTmp) {
-
-                if (!dataArticleTmp[key] || dataArticleTmp[key] == '                                            ') {
-                    continue
-
-                }
-                dataArticle[key] = dataArticleTmp[key]
-
-            };
-            if (req.file) {
-                fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
-                console.log(path.join(__dirname, `../../public/img/${article.image}`));
-                dataArticle.image = req.file.filename;
-            };
-            dataArticle.idArticle = idArticle;
-            console.log(dataArticle);
-
-            const updatedArticle = await Article.findByIdAndUpdate(idArticle, {
-                title: dataArticle.titleArticle,
-                text: dataArticle.textArticle,
-                image: dataArticle.image
-            });
-            const result = await updatedArticle.save();
-            res.redirect('/blogger/dashboard/articles/seeAll');
-
-
-        } catch (err) {
-
-            console.log(`err of doUpdateInWholeArticlePage:${err}`);
-        }
-    }
-
-
-    async doDeleteInBloggerArticlePage(req, res) {
-
-        try {
-
             const idArticle = req.body.idArticle.trim();
+            console.log(idArticle);
             const result = await Article.findByIdAndRemove(idArticle);
             const articles = await Article.find({ writer: req.session.blogger.userName });
-            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
+            res.render('userArticles', { msg: 'Article Deleted Successfully', articles });
 
 
         } catch (err) {
@@ -386,55 +342,16 @@ module.exports = new class {
         }
     }
 
-
-    async doDeleteInBloggerArticlePage(req, res) {
-
-        try {
-
-            const idArticle = req.body.idArticle.trim();
-            const result = await Article.findByIdAndRemove(idArticle);
-            const articles = await Article.find({ writer: req.session.blogger.userName });
-            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
-
-
-        } catch (err) {
-
-            console.log(`err of doDeleteInBloggerArticlePage:${err}`);
-        }
-    }
-
-    async doDeleteInWholeArticlePage(req, res) {
-
-        try {
-            console.log(req.body);
-            const idArticle = req.body.idArticle.trim();
-            const article = await Article.findById(idArticle);
-            const allArticle = await Article.find({});
-            if (req.session.blogger.userName !== article.writer) {
-                if (req.file) {
-
-                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
-                }
-
-                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
-
-            }
-            const result = await Article.findByIdAndRemove(idArticle);
-            const articles = await Article.find({ writer: req.session.blogger.userName });
-            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
-
-
-        } catch (err) {
-
-            console.log(`err of doDeleteInWholeArticlePage:${err}`);
-        }
-    }
 
 
     async showDetailsOneArticle(req, res) {
 
         try {
-            const idArticle = req.body.idArticle.trim();
+            console.log(req.body);
+            const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
+            const idArticle = dataArticleTmp.idArticle.trim();
+
+
             const article = await Article.findById(idArticle);
             res.render('articlePage', { article, msg: null })
 
@@ -448,31 +365,28 @@ module.exports = new class {
     }
 
 
-    
-    async showDetailsOneArticleInWholePageArticle(req, res) {
+
+
+    async doChangePassBlogger(req, res) {
 
         try {
+            console.log(req.body);
+            const salt = await bcrypt.genSalt(5);
+            const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-            const idArticle = req.body.idArticle.trim();
-            const article = await Article.findById(idArticle);
-            if (req.session.blogger.userName !== article.writer) {
-                if (req.file) {
+            const idBlogger = req.body.idBlogger.trim();
+            const user = await Blogger.findById(idBlogger);
+            console.log(user);
+            const updatePass = await Blogger.findByIdAndUpdate(idBlogger, { password: hashedPass });
 
-                    fs.unlinkSync(path.join(__dirname, `../../public/img/${req.file.filename}`));
-                }
-
-                return res.render('wholeArticles', { msg: 'access denied', articles: allArticle });
-
-            }
-            res.render('articlePage', { article, msg: null })
-
+            const result = updatePass.save();
+            const users = await Blogger.find({});
+            res.render('adminDashboard', { users, msg: 'change pass doing successfuly' })
 
         } catch (err) {
 
-            console.log(`err of showDetailsOneArticle:${err}`);
-
+            console.log(`err of doChangePassBlogger:${err}`);
         }
-
     }
 
 }

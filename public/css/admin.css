@@ -82,3 +82,11 @@
     height: 200px; 
     border-radius: 100px;
 }
+
+.d-btns{
+    width: 210px;
+    height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}

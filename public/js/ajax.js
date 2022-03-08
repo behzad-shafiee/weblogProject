@@ -82,8 +82,39 @@ $('.btn-details-articles').click(function (e) {
     let idArticle = $('#d-btn-article').attr('idArticle');
     console.log(idArticle);
 
-    $('#article-details').val(idArticle)
+    $('#article-details').val(idArticle);
+    console.log($('#article-details').val());
 
 
 });
+
+
+
+
+
+$('.btn-changePassBlogger').click(function (e) {
+
+
+
+    let idBlogger = $('#p-idBlogger').attr('idBlogger');
+
+    $('#idBlogger').val(idBlogger);
+    $('#modalChangePass').css({
+        'display': 'flex'
+    })
+
+
+});
+
+$('.btn-close-changePassBlogger').click(function (e) {
+
+    $('#modalChangePass').css({
+        'display': 'none'
+    })
+
+
+});
+
+
+
 

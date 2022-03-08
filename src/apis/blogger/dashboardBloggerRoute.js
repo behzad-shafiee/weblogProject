@@ -13,20 +13,20 @@ const uploadUpdateAvatar = tools.upload.single('updateAvatar');
 
 
 //dashboardPage
-router.get('/dashboard', controlers.showDashboardBlogger);
+router.get('/', controlers.showDashboardUser);
 
-router.post('/dashboard/update', validatores.arrOfValidateUpdateBloggerInfo(), validatores.doValidateUpdateBloggerInfo, controlers.doUpdateBloggerInfo);
+router.post('/update', validatores.arrOfValidateUpdateBloggerInfo(), validatores.doValidateUpdateBloggerInfo, controlers.doUpdateBloggerInfo);
 
-router.get('/dashboard/delete', controlers.doDeleteBlogger);
+router.get('/delete', controlers.doDeleteBlogger);
 
 
 //articles
-router.use('/dashboard/articles',articles);
+router.use('/articles',articles);
 
 
 
 //avatar
-router.post('/dashboard/avatar/update', uploadUpdateAvatar, controlers.doUpdateAvatar);
+router.post('/avatar/update', uploadUpdateAvatar, controlers.doUpdateAvatar);
 
 
 

@@ -22,6 +22,7 @@ router.get('/seeAll',controlers.showWholeArticles);
 router.post('/creat', uploadImgArticle, controlers.creatNewArticle);
 
 
+
 router.post('/seeMine/update',uploadUpdateArticle,controlers.doUpdateArticle);
 
 

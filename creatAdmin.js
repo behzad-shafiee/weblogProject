@@ -21,7 +21,7 @@ module.exports = new class {
                 firstName: "ali",
                 lastName: "mohammady",
                 gender: "male",
-                avatar:'abc',
+                avatar:'avatarDefault.png',
                 phoneNumber: "09356874415",
                 role: 'admin',
               

@@ -32,4 +32,16 @@ module.exports = new class {
         next();
     }
 
+
+    async checkIsAdmin(req, res, next) {
+
+        const user = await Blogger.findOne({role:req.session.blogger.role});
+        req.params.role='amin'
+        if (!user) {
+            return res.render('loginPage', { msg: 'access dinied' });
+        };
+
+        next();
+    }
+
 }

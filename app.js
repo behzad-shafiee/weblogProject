@@ -12,7 +12,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const config = dotenv.config();
 if (config.error) {
-    return console.log(error);
+    console.log(error);
 };
 
 
@@ -20,7 +20,7 @@ const creatAdmin = require('./creatAdmin');
 creatAdmin.creatAdmin();
 
 
-const mainRoute=require('./src/apis/index');
+const mainRoute = require('./src/apis/index');
 
 
 
