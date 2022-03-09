@@ -38,7 +38,7 @@ module.exports = new class {
     async showBloggers(req, res) {
         try {
 
-            const users = await Blogger.find({ $ne: { role: 'admin' } });
+            const users = await Blogger.find({role:{ $ne: 'admin' }});
             res.render('listOfBloggers', { msg: 'wellcome admin', users });
 
         } catch (err) {
@@ -370,6 +370,8 @@ module.exports = new class {
     async doChangePassBlogger(req, res) {
 
         try {
+
+            //621f81882b8c5e92c71f893
             console.log(req.body);
             const salt = await bcrypt.genSalt(5);
             const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -381,12 +383,17 @@ module.exports = new class {
 
             const result = updatePass.save();
             const users = await Blogger.find({});
-            res.render('adminDashboard', { users, msg: 'change pass doing successfuly' })
+            res.render('listOfBloggers', { users, msg: 'change pass doing successfuly' })
 
         } catch (err) {
 
             console.log(`err of doChangePassBlogger:${err}`);
         }
+    }
+
+    dodeleteBlogger(req,res){
+
+
     }
 
 }

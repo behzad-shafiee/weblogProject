@@ -96,9 +96,10 @@ $('.btn-changePassBlogger').click(function (e) {
 
 
 
-    let idBlogger = $('#p-idBlogger').attr('idBlogger');
-
+    let idBlogger = $('#d-idBlogger').attr('idBlogger');
+    console.log(idBlogger);
     $('#idBlogger').val(idBlogger);
+    console.log($('#idBlogger').val());
     $('#modalChangePass').css({
         'display': 'flex'
     })

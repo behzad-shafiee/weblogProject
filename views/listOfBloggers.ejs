@@ -8,17 +8,19 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="/css/style.css" />
+
 </head>
 
 <body>
     <h3>
         <%= msg %>
     </h3>
-    <a href="http://localhost:3000/admin/dashboard"> <button id="btn-see-my-articles"
-        class="btn btn-primary">Back Dashboard</button></a>
+    <a href="http://localhost:3000/admin/dashboard"> <button id="btn-see-my-articles" class="btn btn-primary">Back
+            Dashboard</button></a>
     <div>
-        <table class="table table-hover">
+        <table class="table table-hover table-dark">
 
             <thead>
                 <tr>
@@ -35,32 +37,38 @@
                     <%= users %>
                 </p>
                 <% for(var index=0;index < users.length ;index++ ){ %>
-                    <tr>
-                        <th scope="row">
-                            <%= users[index].userName %>
-                        </th>
-                        <td>
-                            <%= users[index].firstName %>
-                        </td>
-                        <td>
-                            <%= users[index].lastName %>
-                        </td>
-                        <td>
-                            <%= users[index].gender %>
-                        </td>
-                        <td>
-                            <%= users[index].phoneNumber %>
-                        </td>
-                        <td>
+                    <div>
+                        <tr>
 
+                            <th scope="row">
+                                <%= users[index].userName %>
+                            </th>
+                            <td>
+                                <%= users[index].firstName %>
+                            </td>
+                            <td>
+                                <%= users[index].lastName %>
+                            </td>
+                            <td>
+                                <%= users[index].gender %>
+                            </td>
+                            <td>
+                                <%= users[index].phoneNumber %>
+                            </td>
+                            <td>
+                                <div id="d-idBlogger" idBlogger="<%=users[index]._id%> ">
+                                    <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                                    <button class="btn-changePassBlogger btn-delete btn btn-primary">changePass</button>
+                                    <form action="/admin/dashboard/SeeBloggers/deleteBlogger" method="post"> <button
+                                            class="btn-changePassBlogger btn-delete btn btn-primary">delete
+                                            user</button></form>
+                                </div>
 
+                            </td>
 
-                            <button class="btn-changePassBlogger btn-delete btn btn-primary">changePass</button>
+                        </tr>
+                    </div>
 
-                            <p id="p-idBlogger" idBlogger="<%=users[index]._id%> "></p>
-                        </td>
-
-                    </tr>
                     <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -71,11 +79,9 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" action="/admin/dashboard/changePassBlogger">
+                                <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
                                     <div class="modal-body">
 
-
-                                        <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
 
                                         <label for="password">newPassword:</label>
                                         <input type="password" id="password" name="password">
@@ -90,17 +96,22 @@
                             </div>
                         </div>
                     </div>
+
                     <% } %>
+            </tbody>
+
+        </table>
+
     </div>
 
 
 
 
 
-    </tbody>
 
 
-    </table>
+
+
 
 
 </body>

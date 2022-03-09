@@ -15,7 +15,7 @@ router.use('/articles', articles);
 
 
 router.get('/seeBloggers', controlers.showBloggers);
-router.post('/changePassBlogger', controlers.doChangePassBlogger);
-
+router.post('/seeBloggers/changePassBlogger', controlers.doChangePassBlogger);
+router.post('/seeBloggers/deletesBlogger', controlers.dodeleteBlogger);
 
 module.exports = router;
