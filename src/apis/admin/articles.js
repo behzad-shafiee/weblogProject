@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const controlers = require('../../contrlores/controlers');
-const validatores = require('../../validatores/validatores');
+const controlers = require('../../controllers/controlers');
+const validatores = require('../../validators/validatores');
 const middlewares = require('../../middlewares/middlewares');
 const tools = require('../../tools/tools');
 
@@ -34,6 +34,6 @@ router.post('/seeMine/delete',controlers.doDeleteArticle);
 
 router.post('/seeMine/detailsOneArticle',controlers.showDetailsOneArticle)
 
-
+router.post('/seeAll/delete',controlers.doDeleteArticleOfBloggers)
 
 module.exports = router;

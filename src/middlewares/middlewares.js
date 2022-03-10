@@ -1,5 +1,5 @@
 
-const Blogger = require('../../module/blogger');
+const Blogger = require('../../models/blogger');
 module.exports = new class {
 
     async checkSession(req, res, next) {

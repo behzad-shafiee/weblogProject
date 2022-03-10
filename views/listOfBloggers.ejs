@@ -55,53 +55,50 @@
                             <td>
                                 <%= users[index].phoneNumber %>
                             </td>
-                            <td>
-                                <div id="d-idBlogger" idBlogger="<%=users[index]._id%> ">
-                                    <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
-                                    <button class="btn-changePassBlogger btn-delete btn btn-primary">changePass</button>
-                                    <form action="/admin/dashboard/SeeBloggers/deleteBlogger" method="post"> <button
-                                            class="btn-changePassBlogger btn-delete btn btn-primary">delete
-                                            user</button></form>
-                                </div>
+                            <td idBlogger="<%=users[index]._id%>">
 
+                                <p idArticle="5"></p>
+                                <button class="btn-changePassBlogger btn-delete btn btn-primary">changePass</button>
+                                <form action="/admin/dashboard/SeeBloggers/deleteBlogger" method="post"
+                                    class="formDeleteBlogger">
+                                    <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                                    <button type="submit" class="btn-delete-blogger btn-delete btn btn-primary">delete
+                                        user</button>
+                                </form>
                             </td>
 
                         </tr>
                     </div>
-
-                    <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Chagne Password Blogger</h5>
-                                    <button type="button" class="btn-close-changePassBlogger" data-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
-                                    <div class="modal-body">
-
-
-                                        <label for="password">newPassword:</label>
-                                        <input type="password" id="password" name="password">
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                        <button type="button" class="btn-close-changePassBlogger btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
                     <% } %>
             </tbody>
-
         </table>
 
+        <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chagne Password Blogger</h5>
+                        <button type="button" class="btn-close-changePassBlogger" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
+                        <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                        <div class="modal-body">
+                            <label for="password">newPassword:</label>
+                            <input type="password" id="password" name="password">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn-close-changePassBlogger btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -117,6 +114,5 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="/js/ajax.js"></script>
-
+<script src="/js/main.js"></script>
 </html>

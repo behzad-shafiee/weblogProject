@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bloggerData = require('../data/bloggerData.json');
 const timestamp = require('time-stamp');
 const connection = require('./connection');
 

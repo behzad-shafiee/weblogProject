@@ -1,4 +1,4 @@
-const Blogger = require('./module/blogger');
+const Blogger = require('./models/blogger');
 const bcrypt = require('bcrypt');
 
 module.exports = new class {

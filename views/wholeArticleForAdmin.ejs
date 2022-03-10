@@ -42,6 +42,11 @@
                         <h3> createdAt:</h3>
                         <%=articles[index].createdAt %>
                 </div>
+                <form action="/admin/dashboard/articles/seeAll/delete" method="post">
+                    <input type="text" style="display: none;" value="<%=articles[index]._id%>" name="idArticle">
+                    <button type="submit"
+                        class="btn-delete-articles-blogger btn btn-primary">Delete</button>
+                </form>
             </div>
 
 

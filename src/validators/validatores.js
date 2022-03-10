@@ -1,7 +1,7 @@
 
 const { body, validationResult } = require('express-validator');
 const validator = require('validator');
-const Blogger = require('../../module/blogger');
+const Blogger = require('../../models/blogger');
 const bcrypt = require('bcrypt');
 
 module.exports = new class {

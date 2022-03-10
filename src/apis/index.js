@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const middlewares=require('../middlewares/middlewares');
-const controlers = require('../contrlores/controlers');
+const controlers = require('../controllers/controlers');
 
 
 

@@ -1,5 +1,5 @@
-const Blogger = require('../../module/blogger');
-const Article = require('../../module/articles');
+const Blogger = require('../../models/blogger');
+const Article = require('../../models/articles');
 
 
 const bcrypt = require('bcrypt');
@@ -8,6 +8,7 @@ const tools = require('../tools/tools');
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
+const { findByIdAndRemove } = require('../../models/blogger');
 
 
 
@@ -38,7 +39,7 @@ module.exports = new class {
     async showBloggers(req, res) {
         try {
 
-            const users = await Blogger.find({role:{ $ne: 'admin' }});
+            const users = await Blogger.find({ role: { $ne: 'admin' } });
             res.render('listOfBloggers', { msg: 'wellcome admin', users });
 
         } catch (err) {
@@ -259,7 +260,7 @@ module.exports = new class {
             const articles = await Article.find({}).sort({ createdAt: -1 });
             if (req.session.blogger.role === 'admin') {
 
-                return res.render('wholeArticles', { msg: 'wellcome articlesPage', articles: articles, role: 'admin' });
+                return res.render('wholeArticleForAdmin', { msg: 'wellcome articlesPage', articles: articles, role: 'admin' });
 
             };
 
@@ -371,7 +372,7 @@ module.exports = new class {
 
         try {
 
-            //621f81882b8c5e92c71f893
+
             console.log(req.body);
             const salt = await bcrypt.genSalt(5);
             const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -391,9 +392,38 @@ module.exports = new class {
         }
     }
 
-    dodeleteBlogger(req,res){
+    async doDeleteBlogger(req, res) {
+
+
+        try {
+
+            const deleteUser = await Blogger.findByIdAndRemove(req.body.idBlogger);
+            const deleteArticleUser = await Article.findOneAndRemove({ writer: deleteUser.userName });
+            const users = await Blogger.find({ role: { $ne: 'admin' } });
+            res.render('listOfBloggers', { users, msg: 'blogger deleted successfully' });
+
+        } catch (err) {
+
+            console.log(`err of doDeleteBlogger:${err}`);
+        }
 
 
     }
 
+
+    async doDeleteArticleOfBloggers(req, res) {
+        try {
+
+            console.log(req.body);
+            const deleteArticle = await Article.findByIdAndRemove(req.body.idArticle);
+            const articles = await Article.find({});
+            return res.render('wholeArticleForAdmin', { msg: 'article deleted succussfully', articles, role: 'admin' });
+           
+        } catch (err) {
+
+            console.log(`err of doDeleteArticleOfBloggers:${err}`);
+        }
+
+
+    }
 }
