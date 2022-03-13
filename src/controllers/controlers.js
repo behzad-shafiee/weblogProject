@@ -1,6 +1,6 @@
 const Blogger = require('../../models/blogger');
 const Article = require('../../models/articles');
-
+const Comment=require('../../models/comment');
 
 const bcrypt = require('bcrypt');
 const multer = require('multer');
@@ -8,7 +8,7 @@ const tools = require('../tools/tools');
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
-const { findByIdAndRemove } = require('../../models/blogger');
+
 
 
 
@@ -63,6 +63,11 @@ module.exports = new class {
             const result = await user.save();
             const articles = await Article.findOneAndUpdate({ writer: req.session.blogger.userName }, { writer: req.body.userName });
             req.session.blogger = result;
+            console.log(req.session.blogger.role === 'admin');
+            if (req.session.blogger.role === 'admin') {
+
+                return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+            }
             res.render('dashboard', { blogger: updatedData, err: '', srcImgBlogger: req.session.blogger.avatar });
 
 
@@ -185,10 +190,16 @@ module.exports = new class {
     async doUpdateAvatar(req, res, next) {
 
         try {
-
-            fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
-            req.session.blogger.avatar = req.file.filename;
+            
+            if (req.file && req.file.filename!=='avatarDefault.png') {
+                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
+                req.session.blogger.avatar = req.file.filename;
+            }
             const user = await Blogger.findByIdAndUpdate(req.session.blogger._id, { avatar: req.file.filename });
+            if (req.session.blogger.role === 'admin') {
+
+                return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+            }
             res.render('dashboard', { blogger: user, err: '', srcImgBlogger: req.session.blogger.avatar });
         }
         catch (err) {
@@ -216,7 +227,10 @@ module.exports = new class {
 
             console.log(newArticle);
             const result = await newArticle.save();
+            if (req.session.blogger.role === 'admin') {
 
+                return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+            }
             res.render('dashboard', { blogger: req.session.blogger, err: 'article created successfuuly', srcImgBlogger: req.session.blogger.avatar });
 
         } catch (err) {
@@ -238,10 +252,10 @@ module.exports = new class {
             const articles = await Article.find({ writer }).sort({ createdAt: -1 });
             if (req.session.blogger.role === 'admin') {
 
-                return res.render('userArticles', { msg: 'wellcome to your articlesPage', articles: articles, role: req.session.blogger.role });
+                return res.render('adminArticles', { msg: 'wellcome to your articlesPage Admin', articles: articles, role: req.session.blogger.role });
             }
 
-            res.render('userArticles', { msg: 'wellcome to your articlesPage', articles: articles, role: req.session.blogger.role });
+            res.render('bloggerArticles', { msg: 'wellcome to your articlesPage', articles: articles, role: req.session.blogger.role });
 
         } catch (err) {
 
@@ -329,12 +343,20 @@ module.exports = new class {
     async doDeleteArticle(req, res) {
 
         try {
+
             console.log(req.body);
             const idArticle = req.body.idArticle.trim();
             console.log(idArticle);
             const result = await Article.findByIdAndRemove(idArticle);
             const articles = await Article.find({ writer: req.session.blogger.userName });
-            res.render('userArticles', { msg: 'Article Deleted Successfully', articles });
+            fs.unlinkSync(path.join(__dirname, `../../public/img/${result.image}`));
+            console.log(req.session.blogger.role);
+            if (req.session.blogger.role === 'admin') {
+
+                return res.render('adminArticles', { msg: 'Article Deleted Successfully', articles });
+            }
+
+            res.render('bloggerArticles', { msg: 'Article Deleted Successfully', articles });
 
 
         } catch (err) {
@@ -354,7 +376,7 @@ module.exports = new class {
 
 
             const article = await Article.findById(idArticle);
-            res.render('articlePage', { article, msg: null })
+            res.render('articlePage', { article, msg: null,comment })
 
 
         } catch (err) {
@@ -398,7 +420,7 @@ module.exports = new class {
         try {
 
             const deleteUser = await Blogger.findByIdAndRemove(req.body.idBlogger);
-            const deleteArticleUser = await Article.findOneAndRemove({ writer: deleteUser.userName });
+            const deleteArticleUser = await Article.deleteMany({ writer: deleteUser.userName });
             const users = await Blogger.find({ role: { $ne: 'admin' } });
             res.render('listOfBloggers', { users, msg: 'blogger deleted successfully' });
 
@@ -416,9 +438,10 @@ module.exports = new class {
 
             console.log(req.body);
             const deleteArticle = await Article.findByIdAndRemove(req.body.idArticle);
+            fs.unlinkSync(path.join(__dirname, `../../public/img/${deleteArticle.image}`));
             const articles = await Article.find({});
             return res.render('wholeArticleForAdmin', { msg: 'article deleted succussfully', articles, role: 'admin' });
-           
+
         } catch (err) {
 
             console.log(`err of doDeleteArticleOfBloggers:${err}`);

@@ -12,14 +12,14 @@
 <body>
     <div class="countainer-dashboard">
 
-        <img class="img" src="/img/background.png" />
+        <img class="img" src="/img/background.jpeg" />
 
         <div class="content-dashboard">
 
 
-            <p>Wellcome to your page
+            <h2>Wellcome to your page Admin
                 <%= blogger.firstName %>
-            </p>
+            </h2>
 
             <div class="d-form-dashboard">
                 <form class="register-form" action='/blogger/dashboard/delete' method="get">
@@ -83,7 +83,7 @@
                         <button type="submit" class="btn-delete btn btn-primary">logout</button>
                     </form>
 
-                    <form action="/articles/creat" method="get">
+                    <form action="/admin/dashboard/articles/creat" method="post">
                         <button id="btn-creat-article" class="btn btn-primary">creatArticle</button>
                     </form>
 

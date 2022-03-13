@@ -20,7 +20,7 @@ router.use('/admin/dashboard',middlewares.isLogin,middlewares.checkIsAdmin,dashb
 
 router.use('/blogger/dashboard',middlewares.isLogin,dashboardBloggerRoute);
 
-router.get('/:role/dashboard',controlers.backDashboar)
+// router.get('/:role/dashboard',controlers.backDashboar)
 
 router.use('/login',loginRoute);
 router.use('/logout',logoutRoute);

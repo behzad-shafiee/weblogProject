@@ -124,4 +124,13 @@ $('.btn-delete-blogger').click(function (e) {
 });
 
 
+$('.btn-update-article-admin').click(function (e) {
 
+    let idBlogger = $(this).parent('div').attr('idArticle');
+    console.log(idBlogger);
+    $('#modal-updateArticle-admin').css({
+        'display': 'flex'
+    })
+    $('#idArticle-admin').val(idBlogger);
+
+});
