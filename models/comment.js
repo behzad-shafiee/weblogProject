@@ -17,9 +17,10 @@ const commentSchema = new mongoose.Schema({
         required: [true, 'textComment must filles'],
         trim: true,
     },
-    "idAricle": {
+    'idArticle': {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Article'
+        ref:'Article',
+        required:[true, 'idArticle must filles']
     }
 
 }, { timestamps: true });

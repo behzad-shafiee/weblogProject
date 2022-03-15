@@ -15,25 +15,22 @@ const uploadUpdateArticleInWholePage=tools.upload.single('imgWholeArticlePage')
 
 
 
+
+
+
 router.get('/seeMine',controlers.showArticlesOfBlogger);
-router.get('/seeAll',controlers.showWholeArticles);
-
-
 router.post('/creat', uploadImgArticle, controlers.creatNewArticle);
-
-
-
 router.post('/seeMine/update',uploadUpdateArticle,controlers.doUpdateArticle);
-
-
-
-
 router.post('/seeMine/delete',controlers.doDeleteArticle);
+router.post('/seeMine/detailsOneArticle',controlers.showDetailsOneArticle);
 
 
-
-router.post('/seeMine/detailsOneArticle',controlers.showDetailsOneArticle)
+router.get('/seeAll',controlers.showWholeArticles);
+router.post('/seeAll/detailsOneArticle',controlers.showDetailsOneArticle)
+router.post('/seeAll/detailsOneArticle/comment',controlers.setComment)
 
 router.post('/seeAll/delete',controlers.doDeleteArticleOfBloggers)
+
+
 
 module.exports = router;

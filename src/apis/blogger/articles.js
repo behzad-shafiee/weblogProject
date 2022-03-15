@@ -32,7 +32,7 @@ router.post('/seeMine/delete',controlers.doDeleteArticle);
 
 
 router.post('/seeMine/detailsOneArticle',controlers.showDetailsOneArticle)
-
-
+router.post('/seeAll/detailsOneArticle',controlers.showDetailsOneArticle)
+router.post('/seeAll/detailsOneArticle/comment',controlers.setComment)
 
 module.exports = router;

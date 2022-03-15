@@ -1,6 +1,6 @@
 const Blogger = require('../../models/blogger');
 const Article = require('../../models/articles');
-const Comment=require('../../models/comment');
+const Comment = require('../../models/comment');
 
 const bcrypt = require('bcrypt');
 const multer = require('multer');
@@ -8,6 +8,7 @@ const tools = require('../tools/tools');
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
+const { create } = require('lodash');
 
 
 
@@ -62,6 +63,7 @@ module.exports = new class {
             const user = await Blogger.findByIdAndUpdate(req.session.blogger._id, req.body);
             const result = await user.save();
             const articles = await Article.findOneAndUpdate({ writer: req.session.blogger.userName }, { writer: req.body.userName });
+            const updateComment=await Comment.findOneAndUpdate({writer:req.session.blogger.userName},{writer:req.body.userName});
             req.session.blogger = result;
             console.log(req.session.blogger.role === 'admin');
             if (req.session.blogger.role === 'admin') {
@@ -83,7 +85,6 @@ module.exports = new class {
 
             const blogger = await Blogger.findByIdAndRemove(req.session.blogger._id);
             const articles = await Article.deleteMany({ writer: blogger.userName });
-
             res.clearCookie('user_side');
             req.session.destroy(err => {
                 if (err) {
@@ -190,8 +191,8 @@ module.exports = new class {
     async doUpdateAvatar(req, res, next) {
 
         try {
-            
-            if (req.file && req.file.filename!=='avatarDefault.png') {
+
+            if (req.file && req.file.filename !== 'avatarDefault.png') {
                 fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
                 req.session.blogger.avatar = req.file.filename;
             }
@@ -370,13 +371,17 @@ module.exports = new class {
     async showDetailsOneArticle(req, res) {
 
         try {
-            console.log(req.body);
+
             const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
             const idArticle = dataArticleTmp.idArticle.trim();
-
-
             const article = await Article.findById(idArticle);
-            res.render('articlePage', { article, msg: null,comment })
+            const comment = await Comment.find({idArticle});
+            console.log(comment);
+            if (req.session.blogger.role === 'admin') {
+                return res.render('detailArticleAdmin', { article, msg: null, comment })
+            }
+
+            res.render('detailArticleBlogger', { article, msg: null, comment })
 
 
         } catch (err) {
@@ -448,5 +453,29 @@ module.exports = new class {
         }
 
 
+    }
+
+
+
+    async setComment(req, res) {
+
+        try {
+            console.log(req.body);
+            const text = req.body.comment.trim();
+            const writer = req.session.blogger.userName;
+            const idArticle = req.body.idArticle;
+            const comment = await Comment.create({ writer, text, idArticle });
+            const article = await Article.findById(idArticle);
+            if (req.session.blogger.role === 'admin') {
+                return res.redirect('/admin/dashboard/articles/seeAll/detailsOneArticle');
+            };
+
+            res.redirect('/blogger/dashboard/articles/seeAll/detailsOneArticle');
+
+
+        } catch (err) {
+
+            console.log(`err of setComment:${err}`);
+        }
     }
 }
