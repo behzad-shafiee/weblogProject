@@ -4,8 +4,11 @@
 $('#btn-update').click(function (e) {
     e.preventDefault();
     const modalUupdate = $('#modal-update');
+
     modalUupdate.css({
-        'display': 'flex'
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
     });
 });
 

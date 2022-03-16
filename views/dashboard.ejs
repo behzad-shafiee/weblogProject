@@ -17,15 +17,15 @@
         <div class="content-dashboard">
 
 
-            <p>Wellcome to your page
+            <h2>Wellcome to your page
                 <%= blogger.firstName %>
-            </p>
+            </h2>
 
             <div class="d-form-dashboard">
                 <form class="register-form" action='/blogger/dashboard/delete' method="get">
                     <div class="content-reg-form">
 
-                        <div class="flex-row">
+                        <div class="d-flex flex-row justify-content-between">
                             <h4>userName:</h4>
                             <h4>
                                 <%= blogger.userName %>
@@ -67,27 +67,23 @@
                         </div>
 
                     </div>
-                    <div>
-                        <button id="btn-update" class="btn btn-primary">update</button>
-                        <button type="submit" class="btn-delete btn btn-primary">delete</button>
+                    <div class="two-btns">
+                        <button id="btn-update" class="w-100px btn btn-primary">update</button>
+                        <button type="submit" class="w-100px btn-delete btn btn-primary">delete</button>
                     </div>
 
                 </form>
-                <div class="d-flex flex-row justify-content-between">
-
+                <div class="d-btns">
+                    <a href="http://localhost:3000/blogger/dashboard/articles/seeAll"> <button id="btn-see-my-articles"
+                            class="btn btn-primary">See Whole Articles</button></a>
                     <form action="/logout" method="get">
                         <button type="submit" class="btn-delete btn btn-primary">logout</button>
                     </form>
-
                     <a href="http://localhost:3000/blogger/dashboard/articles/seeMine"> <button id="btn-see-my-articles"
                             class="btn btn-primary">See My Articles</button></a>
-
-                    <a href="http://localhost:3000/blogger/dashboard/articles/seeAll"> <button id="btn-see-my-articles"
-                            class="btn btn-primary">See Whole Articles</button></a>
                     <form action="/articles/creat" method="get">
                         <button id="btn-creat-article" class="btn btn-primary">creatArticle</button>
                     </form>
-
                 </div>
                 <h2>
                     <%= err%>
@@ -114,64 +110,69 @@
                     <div class="modal-body">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">update user info</h5>
+                                <h3 class="modal-title">update user info</h3>
                                 <button type="button" id="close-update" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"> &#10006</button>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-group ">
+                            <div class="modal-body-2">
+                                <div class="form-group-update">
 
                                     <label for="userName">userName:</label>
 
-                                    <input type="text" id="userName" name="userName" placeholder="userName">
+                                    <input class="position-right" value="<%= blogger.userName %>" type="text"
+                                        id="userName" name="userName" placeholder="userName">
                                     <h3>
 
                                     </h3>
                                 </div>
-                                <div class="form-group ">
+                                <div class="form-group-update">
                                     <label for="password">password:</label>
-                                    <input type="password" id="password" name="password" placeholder="Password">
+                                    <input class="position-right" value="<%= blogger.password %>" type="password"
+                                        id="password" name="password" placeholder="Password">
                                     <p id="alarm-password"></p>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group-update">
                                     <label for="firstName">firstName:</label>
-                                    <input type="text" id="firstName" name="firstName" placeholder="firstName">
+                                    <input class="position-right" value="<%= blogger.firstName %>" type="text"
+                                        id="firstName" name="firstName" placeholder="firstName">
                                     <p id="alarm-firstName"></p>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group-update">
                                     <label for="lastName"> lastName:</label>
-                                    <input type="text" id="lastName" name="lastName" placeholder="lastName">
+                                    <input class="position-right" value="<%= blogger.lastName %>" type="text"
+                                        id="lastName" name="lastName" placeholder="lastName">
                                     <p id="alarm-lastName"></p>
                                 </div>
-                                <div class="form-group ">
+                                <div class="form-group-update">
                                     <label for="userName">phoneNumber:</label>
-                                    <input type="tel" id="phoneNumber" name="phoneNumber"
-                                        placeholder="e.x: 09151234567">
+                                    <input class="position-right" value="<%= blogger.phoneNumber %>" type="tel"
+                                        id="phoneNumber" name="phoneNumber" placeholder="e.x: 09151234567">
                                     <div>
                                         <p id="alarm-phoneNumber"></p>
                                     </div>
 
                                 </div>
-                                <div class="div-gender">
+                                <div class="form-group-update">
 
                                     <h4>gender:</h4>
-                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male"
-                                        checked>
-                                    <label class="form-check-label" for="male">
-                                        male </label>
-                                    <input class="form-check-input" type="radio" name="gender" id="female"
-                                        value="female">
-                                    <label class="form-check-label" for="female">
-                                        female
-                                    </label>
+                                    <div class="position-right">
+                                        <input class="form-check-input" type="radio" name="gender" id="male"
+                                            value="male" checked>
+                                        <label class="form-check-label" for="male">
+                                            male </label>
+                                        <input class="form-check-input" type="radio" name="gender" id="female"
+                                            value="female">
+                                        <label class="form-check-label" for="female">
+                                            female
+                                        </label>
+                                    </div>
+
                                     <p id="alarm-gender"></p>
                                 </div>
 
                             </div>
                             <div class="modal-footer">
-                                <button id="close-update" type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
@@ -212,7 +213,6 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button id="close-creatArticle" type="button" class="btn btn-secondary">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
