@@ -16,9 +16,9 @@ const registerRoute=require('./blogger/registerRoute');
 
 
 
-router.use('/admin/dashboard',middlewares.isLogin,middlewares.checkIsAdmin,dashboardAdmin);
+router.use('/:role/dashboard',middlewares.isLogin,middlewares.checkIsAdmin,dashboardAdmin);
 
-router.use('/blogger/dashboard',middlewares.isLogin,dashboardBloggerRoute);
+router.use('/:role/dashboard',middlewares.isLogin,dashboardBloggerRoute);
 
 // router.get('/:role/dashboard',controlers.backDashboar)
 

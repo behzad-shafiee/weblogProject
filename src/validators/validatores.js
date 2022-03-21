@@ -11,11 +11,10 @@ module.exports = new class {
     arrOfValidateUpdateBloggerInfo() {
 
         return [
-            body('userName').notEmpty().withMessage("userName is empty").isLength({ min: 2 }).withMessage('username must be at least 2 charcator'),
-            body('password').notEmpty().withMessage("password is empty").isLength({ min: 8 }).withMessage('password must be at least 8 charcator'),
-            body('firstName').notEmpty().withMessage("firstName is empty").isLength({ min: 2, max: 30 }).withMessage('firstname must be between 2-30'),
-            body('lastName').notEmpty().withMessage("lastName is empty").isLength({ min: 2, max: 30 }).withMessage('lastname must be between 2-30'),
-            body('phoneNumber').notEmpty().withMessage("phoneNumber is empty")
+            body('userName').isLength({ min: 2 }).withMessage('username must be at least 2 charcator'),
+            body('password').isLength({ min: 8 }).withMessage('password must be at least 8 charcator'),
+            body('firstName').isLength({ min: 2, max: 30 }).withMessage('firstname must be between 2-30'),
+            body('lastName').isLength({ min: 2, max: 30 }).withMessage('lastname must be between 2-30'),
         ]
     }
 
@@ -27,7 +26,7 @@ module.exports = new class {
         if (!errors.isEmpty()) {
             console.log(errors);
             console.log(req.session.blogger);
-            res.render('dashboard', { blogger: req.session.blogger, err: 'all inputs must fills', errUpdateInfo: '', srcImgBlogger: req.session.blogger.avatar });
+            res.render('dashboard', { blogger: req.session.blogger, err: 'something is wrong', errUpdateInfo: '', srcImgBlogger: req.session.blogger.avatar });
         }
 
         const phoneNumber = req.body.phoneNumber;

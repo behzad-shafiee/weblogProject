@@ -17,6 +17,10 @@
     height: 650px;
 }
 
+.content-reg{
+
+    
+}
 .img {
     width: 100%;
     position: absolute;
@@ -24,7 +28,7 @@
     height: 100%;
 }
 
-.d-form-dashboard {
+.d-form {
     position: absolute;
     width: 500px;
     height: 500px;

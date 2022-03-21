@@ -1,9 +1,7 @@
-
-
-
-$('#btn-update').click(function (e) {
+//modal update userInfo
+$('.btn-update-userInfo').click(function (e) {
     e.preventDefault();
-    const modalUupdate = $('#modal-update');
+    const modalUupdate = $('#modal-update-userInfo');
 
     modalUupdate.css({
         'display': 'flex',
@@ -11,23 +9,23 @@ $('#btn-update').click(function (e) {
         'align-items': 'center'
     });
 });
-
-$('#close-update').click(function (e) {
+$('.close-update-userInfo').click(function (e) {
     e.preventDefault();
-    const modalUupdate = $('#modal-update');
+    const modalUupdate = $('#modal-update-userInfo');
     modalUupdate.css({
         'display': 'none'
     });
 });
 
 
-
-
-$('#btn-creat-article').click(function (e) {
+//modal creat new article
+$('.btn-creat-article').click(function (e) {
     e.preventDefault();
     const modalCreatArticle = $('#modal-creatArticle');
     modalCreatArticle.css({
-        'display': 'flex'
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
     });
 });
 
@@ -127,13 +125,24 @@ $('.btn-delete-blogger').click(function (e) {
 });
 
 
+//modal update article in admin page
 $('.btn-update-article-admin').click(function (e) {
 
     let idBlogger = $(this).parent('div').attr('idArticle');
     console.log(idBlogger);
-    $('#modal-updateArticle-admin').css({
-        'display': 'flex'
-    })
+    $('#modal-updateArticleAdmin').css({
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
+
+    });
     $('#idArticle-admin').val(idBlogger);
+
+});
+$('.close-article-update-admin').click(function (e) {
+
+    $('#modal-updateArticleAdmin').css({
+        'display': 'none',
+    })
 
 });
