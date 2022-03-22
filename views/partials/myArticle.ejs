@@ -23,8 +23,11 @@
                         dashboard</button></a>
                 <div class="msg-title">
                     <h1>
-                        <%=msg%>
+                        Welcome To Article Page
                     </h1>
+                    <p style="display: none;">
+                        <%=msg%>
+                    </p>
                 </div>
             </div>
 
@@ -63,10 +66,9 @@
                         </ul>
 
 
-                        <div class="d-btns" idArticle="<%=articles[index]._id%>">
+                        <div class="d-btns" id="d-btn-article" idArticle="<%=articles[index]._id%>">
 
-                            <button id="btn-update-article"
-                                class="btn-update-article-admin btn btn-primary">Update</button>
+                            <button class="btn-update-article btn btn-primary">Update</button>
 
                             <form action="/:role/dashboard/articles/seeMine/detailsOneArticle"
                                 method="post">
@@ -89,8 +91,8 @@
 
             </div>
 
-            <form action="/:role/dashboard/articles/seeMine/update" method="post">
-                <div class="modal" id="modal-updateArticleAdmin">
+            <form action="/:role/dashboard/articles/seeMine/update" method="post" role="form" enctype="multipart/form-data">
+                <div class="modal" id="modal-updateArticle">
                     <div class="modal-body">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -98,6 +100,7 @@
                                 <button type="button"  class="close-article-update-admin" data-bs-dismiss="modal"
                                     aria-label="Close"> &#10006</button>
                             </div>
+                            <input style="display: none;" id="idArticle" name="idArticle">
                             <div class="modal-body-2">
                                 <div class="">
 
@@ -114,7 +117,7 @@
 
                                 <div class="form-group">
                                     <label for="img-article">Image Of Article:</label>
-                                    <input type="file" id="imgArticle" name="imgArticle">
+                                    <input type="file" id="imgArticle" name="imgUpdateArticle">
 
                                 </div>
 
@@ -135,5 +138,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
+
+<script>
+    let msg = `<%= msg %>`;
+    if (msg) {
+        alert(msg)
+    };
+</script>
 
 </html>

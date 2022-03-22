@@ -39,13 +39,20 @@ $('#close-creatArticle').click(function (e) {
 
 
 
-
+//update,delete,seeDetailsArticle
 $('.btn-update-article').click(function (e) {
-    e.preventDefault();
+
+    let idArticle = $(this).parent('#d-btn-article').attr('idArticle');
+    console.log(idArticle);
+    $('#idArticle').val(idArticle);
     const modalUpdatetArticle = $('#modal-updateArticle');
     modalUpdatetArticle.css({
-        'display': 'flex'
+        'display': 'flex',
+        'justify-content': 'center',
+        'align-items': 'center'
     });
+
+
 });
 
 $('.close-updateArticle').click(function (e) {
@@ -57,16 +64,6 @@ $('.close-updateArticle').click(function (e) {
 });
 
 
-
-//update,delete,seeDetailsArticle
-$('.btn-update-article').click(function (e) {
-
-    let idArticle = $('#d-btn-article').attr('idArticle');
-
-    $('#article-update').val(idArticle)
-
-
-});
 
 $('.btn-delete-articles').click(function (e) {
     let idArticle = $('#d-btn-article').attr('idArticle');

@@ -8,8 +8,8 @@ const tools = require('../../tools/tools');
 
 
 
-const uploadImgArticle = tools.upload.single('imgArticle');
-const uploadUpdateArticle=tools.upload.single('UpdateArticleImg')
+const uploadImgArticle = tools.upload.single('imgCreatArticle');
+const uploadUpdateArticle=tools.upload.single('imgUpdateArticle')
 const uploadUpdateArticleInWholePage=tools.upload.single('imgWholeArticlePage')
 
 

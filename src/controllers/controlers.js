@@ -87,6 +87,7 @@ module.exports = new class {
     async doDeleteBlogger(req, res) {
         try {
             const blogger = await Blogger.findByIdAndRemove(req.session.blogger._id);
+            console.log(blogger);
             const deleteComment = await Comment.deleteMany({ writer: blogger.userName })
             const articles = await Article.deleteMany({ writer: blogger.userName });
             res.clearCookie('user_side');
@@ -95,6 +96,11 @@ module.exports = new class {
                     return console.log(`can not destroy session err:${err}`);
                 };
             });
+
+            if (req.session.blogger.avatar !== 'avatarDefault.png') {
+
+                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
+            }
 
             res.render('loginPage', { msg: ' user deleted successfully ' });
 
@@ -197,15 +203,18 @@ module.exports = new class {
         try {
 
             if (req.file && req.file.filename !== 'avatarDefault.png') {
+
                 fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
-                req.session.blogger.avatar = req.file.filename;
-            }
+
+            };
+            req.session.blogger.avatar = req.file.filename;
             const user = await Blogger.findByIdAndUpdate(req.session.blogger._id, { avatar: req.file.filename });
             if (req.session.blogger.role === 'admin') {
-
-                return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
-            }
-            res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
+                req.params.role = 'admin';
+                return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'avatar updated successfully', srcImgBlogger: req.session.blogger.avatar });
+            };
+            req.params.role = 'blogger';
+            res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'avatar updated successfully', srcImgBlogger: req.session.blogger.avatar });
         }
         catch (err) {
 
@@ -257,11 +266,11 @@ module.exports = new class {
             const articles = await Article.find({ writer }).sort({ createdAt: -1 });
             if (req.session.blogger.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/myArticles', { msg: 'Wellcome To Articles Page', articles: articles, role: req.session.blogger.role, role: 'admin' });
+                return res.render('admin/myArticles', { msg: '', articles: articles, role: req.session.blogger.role, role: 'admin' });
             };
             req.params.role = 'blogger';
 
-            res.render('blogger/myArticles', { msg: 'wellcome to Articles Page', articles: articles, role: req.session.blogger.role, role: 'admin' });
+            res.render('blogger/myArticles', { msg: '', articles: articles, role: req.session.blogger.role, role: 'admin' });
 
         } catch (err) {
 
@@ -308,15 +317,7 @@ module.exports = new class {
             const article = await Article.findById(idArticle);
             const dataArticle = {};
 
-            for (var key in dataArticleTmp) {
 
-                if (!dataArticleTmp[key] || dataArticleTmp[key] == '                                            ') {
-                    continue
-
-                }
-                dataArticle[key] = dataArticleTmp[key]
-
-            };
             if (req.file) {
                 fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
                 dataArticle.image = req.file.filename;

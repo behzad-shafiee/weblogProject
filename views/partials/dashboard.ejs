@@ -81,18 +81,17 @@
                         <button class="btn-update-userInfo w-105px btn btn-success">update</button>
                         <button type="submit" class="w-105px btn-delete btn btn-danger">delete</button>
                     </div>
-
-                    <div class="d-avatar">
-                        <img class="avatar" src='/img/<%= srcImgBlogger%>' alt="bloggerImage">
-                        <form action="/admin/dashboard/avatar/update" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="img-reg">put yor image</label>
-                                <input type="file" id="updateAvatar" name="updateAvatar">
-                            </div>
-                            <button id="btn-creat-article" class="btn btn-success">Change My Avatar</button>
-                        </form>
-                    </div>
                 </form>
+                <div class="d-avatar">
+                    <img class="avatar" src='/img/<%= srcImgBlogger%>' alt="bloggerImage">
+                    <form action="/:role/dashboard/avatar/update" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="img-reg">put yor image</label>
+                            <input type="file" id="updateAvatar" name="updateAvatar">
+                        </div>
+                        <button type="submit" class="btn btn-success">Change My Avatar</button>
+                    </form>
+                </div>
                 <div class="d-btns">
                     <a href="/:role/dashboard/articles/seeAll"> <button id="btn-see-my-articles"
                             class="btn btn-primary">See Whole Articles</button></a>
@@ -190,8 +189,8 @@
             </form>
 
 
-            <!-- creatNewArticle modal and form --> 
-             <form action="/:role/dashboard/articles/creat" method="post" enctype="multipart/form-data" role="form">
+            <!-- creatNewArticle modal and form -->
+            <form action="/:role/dashboard/articles/creat" method="post" enctype="multipart/form-data" role="form">
                 <div class="modal" id="modal-creatArticle">
                     <div class="modal-body">
                         <div class="modal-content">
@@ -217,7 +216,7 @@
 
                                 <div class="form-group">
                                     <label for="img-article">Image Of Article:</label>
-                                    <input type="file" id="imgArticle" name="imgArticle">
+                                    <input type="file" id="imgArticle" name="imgCreatArticle">
 
                                 </div>
 
