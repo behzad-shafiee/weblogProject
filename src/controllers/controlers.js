@@ -71,10 +71,12 @@ module.exports = new class {
             req.session.blogger.avatar = avatar;
 
             if (req.session.blogger.role === 'admin') {
+                req.params.role = 'admin';
+                return res.render('admin/dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+            };
 
-                return res.render('adminDashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
-            }
-            res.render('dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
+            req.params.role = 'blogger';
+            res.render('blogger/dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
 
 
         } catch (err) {
@@ -90,6 +92,12 @@ module.exports = new class {
             console.log(blogger);
             const deleteComment = await Comment.deleteMany({ writer: blogger.userName })
             const articles = await Article.deleteMany({ writer: blogger.userName });
+
+            if (req.session.blogger.avatar !== 'avatarDefault.png') {
+
+                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
+            };
+
             res.clearCookie('user_side');
             req.session.destroy(err => {
                 if (err) {
@@ -97,10 +105,7 @@ module.exports = new class {
                 };
             });
 
-            if (req.session.blogger.avatar !== 'avatarDefault.png') {
 
-                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
-            }
 
             res.render('loginPage', { msg: ' user deleted successfully ' });
 
@@ -202,7 +207,7 @@ module.exports = new class {
 
         try {
 
-            if (req.file && req.file.filename !== 'avatarDefault.png') {
+            if (req.file && req.session.blogger.avatar !== 'avatarDefault.png') {
 
                 fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
 

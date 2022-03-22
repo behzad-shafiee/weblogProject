@@ -11,6 +11,7 @@ const articles = require('./articles');
 const uploadUpdateAvatar = tools.upload.single('updateAvatar');
 
 router.get('/', controlers.showDashboardUser);
+router.post('/delete', controlers.doDeleteBlogger);
 
 //articles
 router.use('/articles', articles);

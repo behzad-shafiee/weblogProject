@@ -22,7 +22,7 @@
             </h2>
 
             <div class="d-info">
-                <form action='/admin/dashboard/delete' method="get">
+                <form action='/:role/dashboard/delete' method="post">
                     <div class="info">
 
                         <div class="row-info">
@@ -114,8 +114,8 @@
 
 
             <!-- update Info modal and form -->
-            <form action="/admin/dashboard/update" method="post">
-                <div id="modal-update-userInfo" class="modal">
+            <form action="/:role/dashboard/update" method="post">
+                <div class="modal" id="modal-update-userInfo">
                     <div class="modal-body">
                         <div class="modal-content">
                             <div class="modal-header">

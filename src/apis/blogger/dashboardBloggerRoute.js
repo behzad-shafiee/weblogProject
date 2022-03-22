@@ -17,7 +17,7 @@ router.get('/', controlers.showDashboardUser);
 
 router.post('/update', validatores.arrOfValidateUpdateBloggerInfo(), validatores.doValidateUpdateBloggerInfo, controlers.doUpdateBloggerInfo);
 
-router.get('/delete', controlers.doDeleteBlogger);
+router.post('/delete', controlers.doDeleteBlogger);
 
 
 //articles

@@ -91,6 +91,12 @@
 
 };
 
+.modal-body{
+    
+    width: 1000px;
+    height:1050px;
+};
+
 .modal-header {
     position: relative;
     width: 100%;
@@ -110,11 +116,13 @@
     height: 550px;
 };
 
+
 .modal-body-2 {
+  
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
     padding: 5px;
@@ -127,9 +135,10 @@
 }
 
 .position-right {
-    position: absolute;
-    right: 0;
-}
+
+ margin-right: 3px;
+
+};
 
 .position-left {
     position: absolute;
@@ -169,7 +178,7 @@
 }
 
 .w-450px {
-    width: 450px;
+    width: 400px;
 }
 
 .w-500px {
