@@ -114,6 +114,7 @@
 
 
             <!-- update Info modal and form -->
+           
             <form action="/:role/dashboard/update" method="post">
                 <div class="modal" id="modal-update-userInfo">
                     <div class="modal-body">
@@ -123,50 +124,44 @@
                                 <button type="button" class="close-update-userInfo" data-bs-dismiss="modal"
                                     aria-label="Close"> &#10006</button>
                             </div>
-                            <div class="modal-body-2">
+                            <div class="modal-body">
 
-                                <div class="form-group-update">
+                                <div class="countainer-elem-update">
 
-                                    <label for="userName">userName:</label>
+                                    <label class="labels-update" for="userName">userName:</label>
 
-                                    <input class="w-450px position-right" value="<%= blogger.userName %>" type="text"
+                                    <input class="input-update" value="<%= blogger.userName %>" type="text"
                                         id="userName" name="userName" placeholder="userName">
-                                    <h3>
 
-                                    </h3>
                                 </div>
-                                <div class="form-group-update">
-                                    <label for="password">password:</label>
-                                    <input class="w-450px position-right" value="<%= blogger.password %>"
+                                <div class="countainer-elem-update">
+                                    <label class="labels-update" for="password">password:</label>
+                                    <input class="input-update" value="<%= blogger.password %>"
                                         type="password" id="password" name="password" placeholder="Password">
-                                    <p id="alarm-password"></p>
+
                                 </div>
 
-                                <div class="form-group-update">
-                                    <label for="firstName">firstName:</label>
-                                    <input class="w-450px position-right" value="<%= blogger.firstName %>" type="text"
+                                <div class="countainer-elem-update">
+                                    <label class="labels-update" for="firstName">firstName:</label>
+                                    <input class="input-update" value="<%= blogger.firstName %>" type="text"
                                         id="firstName" name="firstName" placeholder="firstName">
-                                    <p id="alarm-firstName"></p>
+
                                 </div>
-                                <div class="form-group-update">
-                                    <label for="lastName"> lastName:</label>
-                                    <input class="w-450px position-right" value="<%= blogger.lastName %>" type="text"
+                                <div class="countainer-elem-update">
+                                    <label class="labels-update" for="lastName"> lastName:</label>
+                                    <input class="input-update" value="<%= blogger.lastName %>" type="text"
                                         id="lastName" name="lastName" placeholder="lastName">
-                                    <p id="alarm-lastName"></p>
+
                                 </div>
-                                <div class="form-group-update">
-                                    <label for="userName">phoneNumber:</label>
-                                    <input class="w-450px position-right" value="0<%= blogger.phoneNumber %>" type="tel"
+                                <div class="countainer-elem-update">
+                                    <label class="labels-update" for="phoneNumber">phoneNumber:</label>
+                                    <input class="input-update" value="0<%= blogger.phoneNumber %>" type="tel"
                                         id="phoneNumber" name="phoneNumber" placeholder="e.x: 09151234567">
-                                    <div>
-                                        <p id="alarm-phoneNumber"></p>
-                                    </div>
-
                                 </div>
-                                <div class="form-group-update">
+                                <div class="countainer-elem-update">
 
-                                    <h4>gender:</h4>
-                                    <div class="position-top-left">
+                                    <h4 class="labels-update">gender:</h4>
+                                    <div class="input-update-gender">
                                         <input class="form-check-input" type="radio" name="gender" id="male"
                                             value="male">
                                         <label class="form-check-label" for="male">
@@ -199,7 +194,7 @@
                                 <button type="button" id="close-creatArticle" class="close" data-bs-dismiss="modal"
                                     aria-label="Close"> &#10006</button>
                             </div>
-                            <div class="modal-body-2">
+                            <div class="modal-body">
                                 <div class="">
 
                                     <label for="titleArticle">titleArticle:</label>

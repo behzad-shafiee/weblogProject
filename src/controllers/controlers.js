@@ -72,11 +72,11 @@ module.exports = new class {
 
             if (req.session.blogger.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'update info doing successfuuly', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
             };
 
             req.params.role = 'blogger';
-            res.render('blogger/dashboard', { blogger: req.session.blogger, err: '', srcImgBlogger: req.session.blogger.avatar });
+            res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'update info doing successfuuly', srcImgBlogger: req.session.blogger.avatar });
 
 
         } catch (err) {

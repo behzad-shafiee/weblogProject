@@ -18,34 +18,66 @@ module.exports = new class {
         ]
     }
 
-    doValidateUpdateBloggerInfo(req, res, next) {
+    async doValidateUpdateBloggerInfo(req, res, next) {
 
-        const errors = validationResult(req);
+        try {
 
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                if (req.session.blogger.role === 'admin') {
+                    req.params.role = 'admin';
+                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                };
 
-        if (!errors.isEmpty()) {
-            console.log(errors);
-            console.log(req.session.blogger);
-            res.render('dashboard', { blogger: req.session.blogger, err: 'something is wrong', errUpdateInfo: '', srcImgBlogger: req.session.blogger.avatar });
+                req.params.role = 'blogger';
+                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.blogger.avatar });
+            }
+
+            const phoneNumber = req.body.phoneNumber;
+            if (!validator.isMobilePhone(phoneNumber, ['fa-IR'])) {
+
+                if (req.session.blogger.role === 'admin') {
+                    req.params.role = 'admin';
+                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                };
+
+                req.params.role = 'blogger';
+                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.blogger.avatar });
+
+            }
+
+            const regExp = /^(?=[^A-Z\n]*[A-Z])(?=[^a-z\n]*[a-z])(?=[^0-9\n]*[0-9])(?=[^#?!@$%^&*\n-]*[#?!@$%^&*-]).{8,}$/g;
+            const checkPass = regExp.test(req.body.password);
+            if (!checkPass) {
+
+                if (req.session.blogger.role === 'admin') {
+                    req.params.role = 'admin';
+                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                };
+
+                req.params.role = 'blogger';
+                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.blogger.avatar });
+            };
+
+            const userName = req.body.userName;
+            const isExist = await Blogger.findOne({ userName });
+            if (isExist) {
+
+                if (req.session.blogger.role === 'admin') {
+                    req.params.role = 'admin';
+                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'userName must be uniqe', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                };
+
+                req.params.role = 'blogger';
+                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'userName must be uniqe', srcImgBlogger: req.session.blogger.avatar });
+            }
+
+            next();
+
+        } catch (err) {
+            console.log(`err of doValidateUpdateBloggerInfo:${err}`);
         }
 
-        const phoneNumber = req.body.phoneNumber;
-        if (!validator.isMobilePhone(phoneNumber, ['fa-IR'])) {
-
-            console.log(`phoneNumber must be 11 digit and start with 09..`);
-            res.render('dashboard', { blogger: req.session.blogger, err: 'phoneNumber must be 11 digit and start with 09..', errUpdateInfo: '', srcImgBlogger: req.session.blogger.avatar });
-
-        }
-
-        const regExp = /^(?=[^A-Z\n]*[A-Z])(?=[^a-z\n]*[a-z])(?=[^0-9\n]*[0-9])(?=[^#?!@$%^&*\n-]*[#?!@$%^&*-]).{8,}$/g;
-        const checkPass = regExp.test(req.body.password);
-        if (!checkPass) {
-            console.log(req.body.password);
-            console.log('password must be atleast one capital letter one small letter one number one special letter');
-            res.render('dashboard', { blogger: req.session.blogger, err: 'password must be atleast one capital letter one small letter one number one special letter', errUpdateInfo: '', srcImgBlogger: req.session.blogger.avatar });
-        };
-
-        next();
 
     }
 
