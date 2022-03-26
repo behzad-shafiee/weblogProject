@@ -35,6 +35,11 @@
     align-items: center;
 }
 
+html *
+{
+   font-family:Tahoma, sans-serif !important;
+}
+
 .comments {
     width: 900px;
     margin: 30px auto 0;

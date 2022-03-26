@@ -1,3 +1,7 @@
+html *
+{
+   font-family:Tahoma, sans-serif !important;
+}
 .countainer {
     width: 100%;
     position: relative;

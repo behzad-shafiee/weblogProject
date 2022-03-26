@@ -1,4 +1,7 @@
-
+html *
+{
+   font-family:Tahoma, sans-serif !important;
+}
 .countainer-dashboard {
     width: 100%;
     position: relative;
