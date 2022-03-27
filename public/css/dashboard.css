@@ -50,9 +50,12 @@ html *
 }
 
 .row-info {
-    width: 100%;
+    margin-left: 7px;
+    width: 250px;
     position: relative;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
 }
 
@@ -163,11 +166,8 @@ html *
     border-radius: 100px;
 }
 
-.w-450px {
-    width: 400px;
-}
 
-.w-500px {
+.w-650px {
 
-    width: 500px;
+    width: 650px;
 }

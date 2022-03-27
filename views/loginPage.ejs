@@ -4,35 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/login.css" />
 </head>
 
 <body>
     <div class="countainer">
         <img class="img" src="/img/background.jpeg" />
+      
         <div class="div-form-login">
-            <form class="login-form" method="post" action="/login/page/doing">
-                <p>
-                    <%=msg %>
-                </p>
-                <div class="mb-3">
-                    <label for="userName" class="form-label">userName</label>
-                    <input type="text" class=" form-control" id="userName" placeholder="userName" name="userName">
+            
+            <form class="login-form" method="post" action="/login/page/doing"> 
+
+                <div class="title">
+                     <h2>Login</h2>
                 </div>
-                <div class="mb-3">
-                    <label for="pass" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="pasword" name="password">
+                <div class="content">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">userName</label>
+                        <input type="text" class=" form-control" id="userName" placeholder="userName" name="userName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="pasword" name="password">
+                    </div>
+                    <div class="btn-form">
+                        <button type="submit" class="btn btn-success">Login</button>
+                        <button type="submit" class="btn btn-primary"><a class="register-link"
+                                href="http://localhost:3000/register/page">Register</a></button>
+                    </div>
                 </div>
-                <div class="btn-form">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <button type="submit" class="btn btn-primary"><a class="register-link"
-                            href="http://localhost:3000/register/page">Register</a></button>
-                </div>
+              
+                
+              
 
             </form>
+            <p>
+                <%=msg %>
+            </p>
         </div>
     </div>
 
@@ -40,4 +51,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
+<script>
+    let msg = `<%= msg %>`;
+    if (msg) {
+        alert(msg);
+    };
+</script>
+
 </html>
