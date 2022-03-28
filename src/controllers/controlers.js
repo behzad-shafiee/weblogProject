@@ -294,11 +294,11 @@ module.exports = new class {
             const articles = await Article.find({}).sort({ createdAt: -1 });
             if (req.session.blogger.role === 'admin') {
 
-                return res.render('admin/myArticles', { msg: 'wellcome articlesPage', articles: articles, role: 'admin' });
+                return res.render('admin/allArticles', { msg: '', articles: articles, role: 'admin' });
 
             };
 
-            res.render('blogger/myArticles', { msg: 'wellcome articlesPage', articles: articles, role: 'blogger' });
+            res.render('blogger/allArticles', { msg: '', articles: articles, role: '' });
 
         } catch (err) {
 
@@ -387,12 +387,11 @@ module.exports = new class {
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
             const comment = await Comment.find({ idArticle });
-            console.log(comment);
             if (req.session.blogger.role === 'admin') {
-                return res.render('detailArticleAdmin', { article, msg: null, comment, role: 'admin' })
+                return res.render('admin/seeMoreArticle', { article, msg: null, comment })
             }
 
-            res.render('detailArticleBlogger', { article, msg: null, comment, role: 'blogger' })
+            res.render('blogger/seeMoreArticle', { article, msg: null, comment })
 
 
         } catch (err) {
@@ -460,10 +459,10 @@ module.exports = new class {
             const comment = await Comment.create({ writer, text, idArticle });
             const article = await Article.findById(idArticle);
             if (req.session.blogger.role === 'admin') {
-                return res.redirect('/admin/dashboard/articles/seeAll/detailsOneArticle');
+                return res.redirect('/admin/dashboard/');
             };
 
-            res.redirect('/blogger/dashboard/articles/seeAll');
+            res.redirect('/blogger/dashboard/');
 
 
         } catch (err) {

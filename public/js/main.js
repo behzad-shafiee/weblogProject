@@ -39,7 +39,7 @@ $('#close-creatArticle').click(function (e) {
 
 
 
-//update,delete,seeDetailsArticle
+//update Article
 $('.btn-update-article').click(function (e) {
 
     let idArticle = $(this).parent('#d-btn-article').attr('idArticle');
@@ -55,7 +55,7 @@ $('.btn-update-article').click(function (e) {
 
 });
 
-$('.close-updateArticle').click(function (e) {
+$('.close-update-article').click(function (e) {
     e.preventDefault();
     const modalUpdatetArticle = $('#modal-updateArticle');
     modalUpdatetArticle.css({
@@ -64,7 +64,7 @@ $('.close-updateArticle').click(function (e) {
 });
 
 
-
+//delete article
 $('.btn-delete-articles').click(function (e) {
     let idArticle = $('#d-btn-article').attr('idArticle');
 
@@ -75,14 +75,11 @@ $('.btn-delete-articles').click(function (e) {
 
 });
 
-$('.btn-details-articles').click(function (e) {
+//seeMore Articles
+$('.seeMore-articles').click(function (e) {
 
     let idArticle = $('#d-btn-article').attr('idArticle');
-    console.log(idArticle);
-
     $('#article-details').val(idArticle);
-    console.log($('#article-details').val());
-
 
 });
 

@@ -75,15 +75,15 @@
 
                                 <input type="text" style="display: none;" value="<%=articles[index]._id%>"
                                     name="idArticle">
-                                <button type="submit" id="btn-see-my-articles"
-                                    class="btn-details-articles btn btn-success">See More</button>
+                                <button type="submit" id="seeMore-articles"
+                                    class="seeMore-articles btn btn-success">See More</button>
                             </form>
 
                             <form action="/:role/dashboard/articles/seeMine/delete" method="post">
                                 <input type="text" style="display: none;" value="<%=articles[index]._id%>"
                                     name="idArticle">
                                 <button type="submit" id="btn-delete-articles"
-                                    class="btn-delete-articles-admin btn btn-danger">Delete</button>
+                                    class="btn-delete-articles btn btn-danger">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title">Update Article</h3>
-                                <button type="button"  class="close-article-update-admin" data-bs-dismiss="modal"
+                                <button type="button"  class="close-update-article" data-bs-dismiss="modal"
                                     aria-label="Close"> &#10006</button>
                             </div>
                             <input style="display: none;" id="idArticle" name="idArticle">
@@ -106,7 +106,7 @@
 
                                     <label for="titleArticle">titleArticle:</label>
 
-                                    <input class="w-500px" type="text" id="titleArticle" name="titleArticle" placeholder="titleArticle">
+                                    <input class="w-650px" type="text" id="titleArticle" name="titleArticle" placeholder="titleArticle">
                                 </div>
                                 <div class="form-group ">
                                     <label for="textArticle">textArticle:</label>
