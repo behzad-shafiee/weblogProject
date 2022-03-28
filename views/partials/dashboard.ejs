@@ -102,6 +102,10 @@
                             class="btn btn-primary">See My Articles</button></a>
 
                     <button id="btn-creat-article" class="btn-creat-article btn btn-primary">creatArticle</button>
+                    <% if(blogger.role==='admin' ){%>
+                        <a href="/:role/dashboard/seeBloggers"> <button 
+                                class="btn btn-primary">See All User</button></a>
+                        <% } %>
 
                 </div>
                 <p style="display: none">
@@ -114,7 +118,7 @@
 
 
             <!-- update Info modal and form -->
-           
+
             <form action="/:role/dashboard/update" method="post">
                 <div class="modal" id="modal-update-userInfo">
                     <div class="modal-body">
@@ -136,8 +140,8 @@
                                 </div>
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="password">password:</label>
-                                    <input class="input-update" value="<%= blogger.password %>"
-                                        type="password" id="password" name="password" placeholder="Password">
+                                    <input class="input-update" value="<%= blogger.password %>" type="password"
+                                        id="password" name="password" placeholder="Password">
 
                                 </div>
 

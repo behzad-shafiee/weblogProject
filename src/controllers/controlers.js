@@ -41,7 +41,7 @@ module.exports = new class {
         try {
 
             const users = await Blogger.find({ role: { $ne: 'admin' } });
-            res.render('listOfBloggers', { msg: 'wellcome admin', users });
+            res.render('admin/listOfBloggers', { msg: '', users });
 
         } catch (err) {
 
@@ -88,8 +88,8 @@ module.exports = new class {
 
     async doDeleteBlogger(req, res) {
         try {
-            const blogger = await Blogger.findByIdAndRemove(req.session.blogger._id);
-            console.log(blogger);
+
+            const blogger = await Blogger.findByIdAndRemove(req.body.idBlogger);
             const deleteComment = await Comment.deleteMany({ writer: blogger.userName })
             const articles = await Article.deleteMany({ writer: blogger.userName });
 
@@ -105,10 +105,8 @@ module.exports = new class {
                 };
             });
 
-
-
-            res.render('loginPage', { msg: ' user deleted successfully ' });
-
+            const users = await Blogger.find({ role: { $ne: 'admin' } });
+            res.render('admin/listOfBloggers', { msg: 'user deleted successfully', users });
 
         } catch (err) {
 
@@ -411,17 +409,16 @@ module.exports = new class {
 
 
             console.log(req.body);
-            const salt = await bcrypt.genSalt(5);
-            const hashedPass = await bcrypt.hash(req.body.password, salt);
-
             const idBlogger = req.body.idBlogger.trim();
             const user = await Blogger.findById(idBlogger);
-            console.log(user);
+            const salt = await bcrypt.genSalt(5);
+            console.log('0'+user.phoneNumber);
+            const hashedPass = await bcrypt.hash('0'+user.phoneNumber, salt);
+            console.log(hashedPass);
             const updatePass = await Blogger.findByIdAndUpdate(idBlogger, { password: hashedPass });
-
             const result = updatePass.save();
-            const users = await Blogger.find({});
-            res.render('listOfBloggers', { users, msg: 'change pass doing successfuly' })
+            const users = await Blogger.find({ role: { $ne: 'admin' } });
+            res.render('admin/listOfBloggers', { msg: 'password of user changed to his phoneNumber successfuly', users });
 
         } catch (err) {
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>adminDashboard</title>
+    <title>seeAllUser</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -17,14 +17,12 @@
     <div class="countanier">
         <img class="img" src="/img/background.jpeg" />
         <div class="content">
-            <h3>
-                <%= msg %>
-            </h3>
-            <a href="http://localhost:3000/admin/dashboard"> <button id="btn-see-my-articles" class="btn btn-primary">Back
+            <a href="http://localhost:3000/admin/dashboard"> <button id="btn-see-my-articles"
+                    class="btn btn-primary">Back
                     Dashboard</button></a>
-            <div >
-                <table class="table table-hover table-dark">
-    
+            <div>
+                <table class="table table-hover">
+
                     <thead>
                         <tr>
                             <th scope="col">userName</th>
@@ -32,7 +30,7 @@
                             <th scope="col">lastName</th>
                             <th scope="col">gender</th>
                             <th scope="col">phoneNumber</th>
-    
+
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +40,7 @@
                         <% for(var index=0;index < users.length ;index++ ){ %>
                             <div>
                                 <tr>
-    
+
                                     <th scope="row">
                                         <%= users[index].userName %>
                                     </th>
@@ -56,61 +54,43 @@
                                         <%= users[index].gender %>
                                     </td>
                                     <td>
-                                        <%= users[index].phoneNumber %>
+                                        0<%= users[index].phoneNumber %>
                                     </td>
                                     <td idBlogger="<%=users[index]._id%>">
-    
-                                        <p idArticle="5"></p>
-                                        <button class="btn-changePassBlogger btn-delete btn btn-primary">changePass</button>
-                                        <form action="/admin/dashboard/SeeBloggers/deleteBlogger" method="post"
+                                        <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
+                                            <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                                            <button class="btn-change-pass btn btn-success">changePass</button>
+                                        </form>
+
+                                        <form action="/admin/dashboard/seeBloggers/deleteBlogger" method="get"
                                             class="formDeleteBlogger">
                                             <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
                                             <button type="submit"
-                                                class="btn-delete-blogger btn-delete btn btn-primary">delete
+                                                class="btn-delete-blogger btn-delete btn btn-danger">delete
                                                 user</button>
                                         </form>
                                     </td>
-    
+
                                 </tr>
                             </div>
                             <% } %>
                     </tbody>
                 </table>
-    
-                <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Chagne Password Blogger</h5>
-                                <button type="button" class="btn-close-changePassBlogger" data-dismiss="modal"
-                                    aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
-                                <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
-                                <div class="modal-body">
-                                    <label for="password">newPassword:</label>
-                                    <input type="password" id="password" name="password">
-    
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                    <button type="button" class="btn-close-changePassBlogger btn btn-secondary"
-                                        data-dismiss="modal">Close</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        </div>
-       
-
+    </div>
+    <h3>
+        <%= msg %>
+    </h3>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="/js/main.js"></script>
+<script>
+    let msg = `<%= msg %>`;
+    if (msg) {
+        alert(msg)
+    };
+</script>
 
 </html>

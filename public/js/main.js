@@ -86,16 +86,12 @@ $('.seeMore-articles').click(function (e) {
 
 
 
+//change password of blogger
+$('.btn-change-pass').click(function (e) {
 
-$('.btn-changePassBlogger').click(function (e) {
-
-
-
-    let idBlogger = $(this).parent('td').attr('idBlogger')
+    let idBlogger = $(this).closest('td').attr('idBlogger');
+    console.log(idBlogger);
     $('#idBlogger').val(idBlogger);
-    $('#modalChangePass').css({
-        'display': 'flex'
-    })
 
 });
 
