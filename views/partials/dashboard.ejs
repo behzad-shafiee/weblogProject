@@ -78,8 +78,8 @@
 
                     </div>
                     <div class="two-btns">
-                        <button class="btn-update-userInfo w-105px btn btn-success">update</button>
-                        <button type="submit" class="w-105px btn-delete btn btn-danger">delete</button>
+                        <button class="w-150px btn-update-userInfo w-105px btn btn-success">update</button>
+                        <button type="submit" class="w-150px btn-delete btn btn-danger">delete</button>
                     </div>
                 </form>
                 <div class="d-avatar">
@@ -89,22 +89,26 @@
                             <label for="img-reg">put yor image</label>
                             <input type="file" id="updateAvatar" name="updateAvatar">
                         </div>
-                        <button type="submit" class="btn btn-success">Change My Avatar</button>
+                        <button type="submit" class="btn-avatar btn btn-success">Change My Avatar</button>
                     </form>
                 </div>
                 <div class="d-btns">
-                    <a href="/:role/dashboard/articles/seeAll"> <button id="btn-see-my-articles"
-                            class="btn btn-primary">See Whole Articles</button></a>
+                    <a href="/:role/dashboard/articles/seeAll"> <button id="w-150px btn-see-my-articles"
+                            class="w-150px btn btn-primary">See Whole Articles</button></a>
                     <form action="/logout" method="get">
-                        <button type="submit" class="btn-delete btn btn-warning">logout</button>
+                        <button type="submit" class="w-150px btn-delete btn btn-warning">logout</button>
                     </form>
                     <a href="/:role/dashboard/articles/seeMine"> <button id="btn-see-my-articles"
-                            class="btn btn-primary">See My Articles</button></a>
+                            class="w-150px btn btn-primary">See My Articles</button></a>
 
-                    <button id="btn-creat-article" class="btn-creat-article btn btn-primary">creatArticle</button>
+                    <button id="btn-creat-article"
+                        class="w-150px btn-creat-article btn btn-primary">creatArticle</button>
                     <% if(blogger.role==='admin' ){%>
-                        <a href="/:role/dashboard/seeBloggers"> <button 
-                                class="btn btn-primary">See All User</button></a>
+                        <a href="/:role/dashboard/seeBloggers"> <button class="w-150px btn btn-primary">See All
+                                User</button></a>
+                        <a href="/:role/dashboard/seeComments"> <button class="w-150px btn btn-primary">See All
+                                Comments</button></a>
+
                         <% } %>
 
                 </div>

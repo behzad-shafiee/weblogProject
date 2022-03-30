@@ -1,0 +1,51 @@
+html * {
+    font-family: Tahoma, sans-serif !important;
+}
+
+.countainer {
+    position: relative;
+}
+
+.content {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.title {
+    width: 200px;
+    height: 50px;
+    background-color: rgb(245, 227, 250);
+    margin: 0 auto;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.table {
+    margin: 10px auto 0;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.w-100px{
+    
+    width: 100px;
+}
+.w-500px{
+
+    width: 750px;
+} 
+th{
+    font-size: 20px;
+}
+.img {
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+}

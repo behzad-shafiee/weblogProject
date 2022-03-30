@@ -412,8 +412,8 @@ module.exports = new class {
             const idBlogger = req.body.idBlogger.trim();
             const user = await Blogger.findById(idBlogger);
             const salt = await bcrypt.genSalt(5);
-            console.log('0'+user.phoneNumber);
-            const hashedPass = await bcrypt.hash('0'+user.phoneNumber, salt);
+            console.log('0' + user.phoneNumber);
+            const hashedPass = await bcrypt.hash('0' + user.phoneNumber, salt);
             console.log(hashedPass);
             const updatePass = await Blogger.findByIdAndUpdate(idBlogger, { password: hashedPass });
             const result = updatePass.save();
@@ -465,6 +465,33 @@ module.exports = new class {
         } catch (err) {
 
             console.log(`err of setComment:${err}`);
+        }
+    }
+
+    async showComments(req, res) {
+
+        try {
+            const comments = await Comment.find({});
+            res.render('admin/seeComments', { msg: '', comments });
+
+        } catch (err) {
+
+            console.log(`err of showComments:${err}`);
+        }
+    }
+
+    async doDeleteComment(req, res) {
+
+        try {
+            console.log(req.body);
+            const result = await Comment.findByIdAndRemove(req.body.idComment);
+            const comments = await Comment.find({});
+            res.render('admin/seeComments', { msg: 'comment deleted successfully', comments });
+
+
+        } catch (err) {
+
+            console.log(`err of doDeleteComment:${err}`);
         }
     }
 }

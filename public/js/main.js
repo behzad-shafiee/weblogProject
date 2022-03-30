@@ -136,3 +136,12 @@ $('.close-article-update-admin').click(function (e) {
     })
 
 });
+
+//delete cooments 
+$('.btn-delete-comment').click(function (e) {
+
+    let idBlogger = $(this).closest('td').attr('idBlogger');
+    console.log(idBlogger);
+    $(this).siblings('input').val(idBlogger)
+
+});

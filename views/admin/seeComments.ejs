@@ -1,0 +1,71 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>seeComments</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/comments.css" />
+
+</head>
+
+<body>
+    <div class="countanier">
+        <img class="img" src="/img/background.jpeg" />
+        <div class="content">
+            <a href="/admin/dashboard"> <button id="btn-see-my-articles" class="btn btn-success">Back
+                    Dashboard</button></a>
+            <div>
+                <div class="title">
+                    Comments
+                </div>
+                <div class="table">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th class="w-100px" scope="col">writer</th>
+                                <th class="w-500px" scope="col">Comment</th>
+                                <th class="w-100px" scope="col">Delete?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var index=0;index < comments.length ;index++ ){ %>
+                                <tr>
+                                    <td>
+                                        <%= comments[index].writer %>
+                                    </td>
+                                    <td>
+                                        <%= comments[index].text %>
+                                    </td>
+                                    <td>
+                                        <form action="/admin/dashboard/seeComments/delete" method="post">
+                                            <input type="tex" style="display: none;" value="<%= comments[index]._id %>" name="idComment"/>
+                                            <button type="submit" class="w-100px btn-delete-comment btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>
+        <%= msg %>
+    </h3>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    let msg = `<%= msg %>`;
+    if (msg) {
+        alert(msg)
+    };
+</script>
+
+</html>
