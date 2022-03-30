@@ -40,7 +40,7 @@
                                     <td>
                                         <%= comments[index].text %>
                                     </td>
-                                    <td>
+                                    <td idComment="">
                                         <form action="/admin/dashboard/seeComments/delete" method="post">
                                             <input type="tex" style="display: none;" value="<%= comments[index]._id %>" name="idComment"/>
                                             <button type="submit" class="w-100px btn-delete-comment btn btn-danger">Delete</button>
