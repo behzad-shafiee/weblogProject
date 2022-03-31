@@ -1,7 +1,7 @@
 
 const { body, validationResult } = require('express-validator');
 const validator = require('validator');
-const Blogger = require('../../models/blogger');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
 module.exports = new class {
@@ -24,25 +24,25 @@ module.exports = new class {
 
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                if (req.session.blogger.role === 'admin') {
+                if (req.session.user.role === 'admin') {
                     req.params.role = 'admin';
-                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                    return res.render('admin/dashboard', { blogger: req.session.user, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.user.avatar, role: 'admin' });
                 };
 
                 req.params.role = 'blogger';
-                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.blogger.avatar });
+                res.render('blogger/dashboard', { blogger: req.session.user, msg: 'username must be at least 2 charcator,password must be at least 8 charcator ,firstname and lastName must be between 2-30', srcImgBlogger: req.session.user.avatar });
             }
 
             const phoneNumber = req.body.phoneNumber;
             if (!validator.isMobilePhone(phoneNumber, ['fa-IR'])) {
 
-                if (req.session.blogger.role === 'admin') {
+                if (req.session.user.role === 'admin') {
                     req.params.role = 'admin';
-                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                    return res.render('admin/dashboard', { blogger: req.session.user, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.user.avatar, role: 'admin' });
                 };
 
                 req.params.role = 'blogger';
-                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.blogger.avatar });
+                res.render('blogger/dashboard', { blogger: req.session.user, msg: 'phoneNumber must be 11 digit and start with 09..', srcImgBlogger: req.session.user.avatar });
 
             }
 
@@ -50,26 +50,26 @@ module.exports = new class {
             const checkPass = regExp.test(req.body.password);
             if (!checkPass) {
 
-                if (req.session.blogger.role === 'admin') {
+                if (req.session.user.role === 'admin') {
                     req.params.role = 'admin';
-                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                    return res.render('admin/dashboard', { blogger: req.session.user, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.user.avatar, role: 'admin' });
                 };
 
                 req.params.role = 'blogger';
-                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.blogger.avatar });
+                res.render('blogger/dashboard', { blogger: req.session.user, msg: 'password must be atleast one capital letter one small letter one number one special letter', srcImgBlogger: req.session.user.avatar });
             };
 
             const userName = req.body.userName;
-            const isExist = await Blogger.findOne({ userName });
+            const isExist = await User.findOne({ userName });
             if (isExist) {
 
-                if (req.session.blogger.role === 'admin') {
+                if (req.session.user.role === 'admin') {
                     req.params.role = 'admin';
-                    return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'userName must be uniqe', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                    return res.render('admin/dashboard', { blogger: req.session.user, msg: 'userName must be uniqe', srcImgBlogger: req.session.user.avatar, role: 'admin' });
                 };
 
                 req.params.role = 'blogger';
-                res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'userName must be uniqe', srcImgBlogger: req.session.blogger.avatar });
+                res.render('blogger/dashboard', { blogger: req.session.user, msg: 'userName must be uniqe', srcImgBlogger: req.session.user.avatar });
             }
 
             next();
@@ -147,7 +147,7 @@ module.exports = new class {
                 return res.render('registerPage', { error: 'password must be atleast one capital letter one small letter one number one special letter' });
             };
 
-            const isExist = await Blogger.findOne({ userName: req.body.userName });
+            const isExist = await User.findOne({ userName: req.body.userName });
             if (isExist) {
 
                 return res.render('registerPage', { error: 'userName must be uniqe' });

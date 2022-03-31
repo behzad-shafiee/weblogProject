@@ -18,7 +18,7 @@
 
 
             <h2>Wellcome to your page
-                <%= blogger.firstName %>
+                <%= user.firstName %>
             </h2>
 
             <div class="d-info">
@@ -28,13 +28,13 @@
                         <div class="row-info">
                             <h4>userName:</h4>
                             <h4 class="position-right">
-                                <%= blogger.userName %>
+                                <%= user.userName %>
                             </h4>
                         </div>
                         <div class="row-info ">
                             <h4>password:</h4>
                             <h4 class="position-right">
-                                <%= blogger.password %>
+                                <%= user.password %>
                             </h4>
 
                         </div>
@@ -42,25 +42,25 @@
                         <div class="row-info ">
                             <h4>lastName:</h4>
                             <h4 class="position-right">
-                                <%= blogger.lastName %>
+                                <%= user.lastName %>
                             </h4>
                         </div>
                         <div class="row-info ">
                             <h4>firstName:</h4>
                             <h4 class="position-right">
-                                <%= blogger.firstName %>
+                                <%= user.firstName %>
                             </h4>
                         </div>
                         <div class="row-info ">
                             <h4>phoneNumber:</h4>
 
-                            <%if((blogger.phoneNumber)){%>
+                            <%if((user.phoneNumber)){%>
                                 <h4 class="position-right">
-                                    <%= blogger.phoneNumber %>
+                                    <%= user.phoneNumber %>
                                 </h4>
                                 <%}else{ %>
                                     <h4>
-                                        0<%= blogger.phoneNumber %>
+                                        0<%= user.phoneNumber %>
                                     </h4>
 
                                     <% } %>
@@ -71,19 +71,20 @@
 
                             <h4>gender:</h4>
                             <h4 class="position-right">
-                                <%= blogger.gender %>
+                                <%= user.gender %>
                             </h4>
 
                         </div>
 
                     </div>
                     <div class="two-btns">
+                        <input style="display: none;" value=" <%= user._id %>" name="idUser"/>
                         <button class="w-150px btn-update-userInfo w-105px btn btn-success">update</button>
                         <button type="submit" class="w-150px btn-delete btn btn-danger">delete</button>
                     </div>
                 </form>
                 <div class="d-avatar">
-                    <img class="avatar" src='/img/<%= srcImgBlogger%>' alt="bloggerImage">
+                    <img class="avatar" src='/img/<%= srcImgUser%>' alt="avatar">
                     <form action="/:role/dashboard/avatar/update" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="img-reg">put yor image</label>
@@ -103,7 +104,7 @@
 
                     <button id="btn-creat-article"
                         class="w-150px btn-creat-article btn btn-primary">creatArticle</button>
-                    <% if(blogger.role==='admin' ){%>
+                    <% if(user.role==='admin' ){%>
                         <a href="/:role/dashboard/seeBloggers"> <button class="w-150px btn btn-primary">See All
                                 User</button></a>
                         <a href="/:role/dashboard/seeComments"> <button class="w-150px btn btn-primary">See All
@@ -138,32 +139,32 @@
 
                                     <label class="labels-update" for="userName">userName:</label>
 
-                                    <input class="input-update" value="<%= blogger.userName %>" type="text"
+                                    <input class="input-update" value="<%= user.userName %>" type="text"
                                         id="userName" name="userName" placeholder="userName">
 
                                 </div>
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="password">password:</label>
-                                    <input class="input-update" value="<%= blogger.password %>" type="password"
+                                    <input class="input-update" value="<%= user.password %>" type="password"
                                         id="password" name="password" placeholder="Password">
 
                                 </div>
 
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="firstName">firstName:</label>
-                                    <input class="input-update" value="<%= blogger.firstName %>" type="text"
+                                    <input class="input-update" value="<%= user.firstName %>" type="text"
                                         id="firstName" name="firstName" placeholder="firstName">
 
                                 </div>
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="lastName"> lastName:</label>
-                                    <input class="input-update" value="<%= blogger.lastName %>" type="text"
+                                    <input class="input-update" value="<%= user.lastName %>" type="text"
                                         id="lastName" name="lastName" placeholder="lastName">
 
                                 </div>
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="phoneNumber">phoneNumber:</label>
-                                    <input class="input-update" value="0<%= blogger.phoneNumber %>" type="tel"
+                                    <input class="input-update" value="0<%= user.phoneNumber %>" type="tel"
                                         id="phoneNumber" name="phoneNumber" placeholder="e.x: 09151234567">
                                 </div>
                                 <div class="countainer-elem-update">

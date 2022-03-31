@@ -19,7 +19,7 @@ const creatAdmin = require('./creatAdmin');
 creatAdmin.creatAdmin();
 
 
-const mainRoute = require('./src/apis/index');
+const mainRoute = require('./routes/index');
 
 
 

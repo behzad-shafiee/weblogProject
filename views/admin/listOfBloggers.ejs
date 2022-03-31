@@ -58,13 +58,13 @@
                                     </td>
                                     <td idBlogger="<%=users[index]._id%>">
                                         <form method="post" action="/admin/dashboard/SeeBloggers/changePassBlogger">
-                                            <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                                            <input type="text" style="display: none;" id="idBlogger" name="idUser">
                                             <button class="btn-change-pass btn btn-success">changePass</button>
                                         </form>
 
-                                        <form action="/admin/dashboard/seeBloggers/deleteBlogger" method="get"
+                                        <form action="/admin/dashboard/seeBloggers/deleteBlogger" method="post"
                                             class="formDeleteBlogger">
-                                            <input type="text" style="display: none;" id="idBlogger" name="idBlogger">
+                                            <input type="text" style="display: none;" id="idBlogger" name="idUser">
                                             <button type="submit"
                                                 class="btn-delete-blogger btn-delete btn btn-danger">delete
                                                 user</button>

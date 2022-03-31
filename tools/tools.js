@@ -11,7 +11,7 @@ const tools = {};
 tools.avatarStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         console.log('hello');
-        cb(null, path.join(__dirname, '../../public/img'));
+        cb(null, path.join(__dirname, '../public/img'));
 
     },
     filename: (req, file, cb) => {

@@ -1,6 +1,6 @@
-const Blogger = require('../../models/blogger');
-const Article = require('../../models/articles');
-const Comment = require('../../models/comment');
+const User = require('../models/user');
+const Article = require('../models/articles');
+const Comment = require('../models/comment');
 
 const bcrypt = require('bcrypt');
 const multer = require('multer');
@@ -20,82 +20,86 @@ module.exports = new class {
 
     backDashboar(req, res) {
 
-        if (req.session.blogger.role === 'admin') {
+        if (req.session.user.role === 'admin') {
             return req.params.role = 'admin'
         }
 
         req.params.role = 'blogger'
     }
 
-    showDashboardUser(req, res) {
-        if (req.session.blogger.role === 'admin') {
+    showDashboard(req, res) {
+        if (req.session.user.role === 'admin') {
             req.params.role = 'admin';
-            return res.render('admin/dashboard', { blogger: req.session.blogger, msg: '', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+            return res.render('admin/dashboard', { user: req.session.user, msg: '', srcImgUser: req.session.user.avatar, role: 'admin' });
         }
         req.params.role = 'blogger'
-        res.render('blogger/dashboard', { blogger: req.session.blogger, msg: '', srcImgBlogger: req.session.blogger.avatar, role: 'blogger' });
+        res.render('blogger/dashboard', { user: req.session.user, msg: '', srcImgUser: req.session.user.avatar, role: 'blogger' });
 
     }
 
     async showBloggers(req, res) {
         try {
 
-            const users = await Blogger.find({ role: { $ne: 'admin' } });
+            const users = await User.find({ role: { $ne: 'admin' } });
             res.render('admin/listOfBloggers', { msg: '', users });
 
         } catch (err) {
 
+            console.log(`err of showBloggers:${err}`);
         }
 
 
     }
 
 
-    async doUpdateBloggerInfo(req, res) {
+    async doUpdateUserInfo(req, res) {
 
         try {
 
 
 
-            const avatar = req.session.blogger.avatar;
-            const user = await Blogger.findByIdAndUpdate(req.session.blogger._id, req.body);
-            const articles = await Article.updateMany({ writer: req.session.blogger.userName }, { writer: req.body.userName });
-            const updateComment = await Comment.updateMany({ writer: req.session.blogger.userName }, { writer: req.body.userName });
-            req.session.blogger = req.body;
+            const avatar = req.session.user.avatar;
+            const user = await User.findByIdAndUpdate(req.session.user._id, req.body);
+            const articles = await Article.updateMany({ writer: req.session.user.userName }, { writer: req.body.userName });
+            const updateComment = await Comment.updateMany({ writer: req.session.user.userName }, { writer: req.body.userName });
+            req.session.user = req.body;
             const salt = await bcrypt.genSalt(5);
             const hashedPass = await bcrypt.hash(req.body.password, salt);
             user.password = hashedPass;
             const result = await user.save();
             console.log(articles);
             console.log(updateComment);
-            req.session.blogger.avatar = avatar;
+            req.session.user.avatar = avatar;
 
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'update info doing successfuuly', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                return res.render('admin/dashboard', { user: req.session.user, msg: 'update info doing successfuuly', srcImgUser: req.session.user.avatar, role: 'admin' });
             };
 
             req.params.role = 'blogger';
-            res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'update info doing successfuuly', srcImgBlogger: req.session.blogger.avatar });
+            res.render('blogger/dashboard', { user: req.session.user, msg: 'update info doing successfuuly', srcImgUser: req.session.user.avatar });
 
 
         } catch (err) {
 
-            console.log(`err of update blogger :${err}`);
+            console.log(`err of doUpdateUserInfo :${err}`);
         }
     }
 
 
-    async doDeleteBlogger(req, res) {
+    async doDeleteUser(req, res) {
         try {
+            console.log(req.body);
+            const idUser = req.body.idUser.trim()
+            const user = await User.findByIdAndRemove(idUser);
+            const role = user.role;
+            console.log(role);
+            const deleteComment = await Comment.deleteMany({ writer: user.userName })
+            const articles = await Article.deleteMany({ writer: user.userName });
 
-            const blogger = await Blogger.findByIdAndRemove(req.body.idBlogger);
-            const deleteComment = await Comment.deleteMany({ writer: blogger.userName })
-            const articles = await Article.deleteMany({ writer: blogger.userName });
+            if (req.session.user.avatar !== 'avatarDefault.png') {
 
-            if (req.session.blogger.avatar !== 'avatarDefault.png') {
-
-                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${req.session.user.avatar}`));
             };
 
             res.clearCookie('user_side');
@@ -105,17 +109,25 @@ module.exports = new class {
                 };
             });
 
-            const users = await Blogger.find({ role: { $ne: 'admin' } });
-            res.render('admin/listOfBloggers', { msg: 'user deleted successfully', users });
+            const users = await User.find({ role: { $ne: 'admin' } });
+            if (role === 'admin') {
+                return res.render('admin/listOfBloggers', { msg: 'user deleted successfully', users });
+            }
+
+
+            return res.render('loginPage', { msg: 'you deleted succussfully' });
+
 
         } catch (err) {
 
-            console.log(`err of doDeleteBlogger:${err}`);
+            console.log(`err of doDeleteUser:${err}`);
         }
     }
 
 
+
     showLoginPage(req, res) {
+
         res.render('loginPage', { msg: null });
     }
 
@@ -123,24 +135,24 @@ module.exports = new class {
     async doLogin(req, res) {
 
         try {
+            console.log(req.body);
+            const user = await User.findOne({ userName: req.body.userName });
 
-            const blogger = await Blogger.findOne({ userName: req.body.userName });
-
-            if (!blogger) {
+            if (!user) {
                 return res.render('loginPage', { msg: 'something is wrong!!!' });
 
             }
 
-            const validatePass = await bcrypt.compare(req.body.password, blogger.password);
+            const validatePass = await bcrypt.compare(req.body.password, user.password);
 
             if (!validatePass) {
                 return res.render('loginPage', { msg: 'something is wrong!!!' });
             }
-            blogger.password = req.body.password;
-            res.cookie('user_side', blogger._id);
-            req.session.blogger = blogger;
-            console.log(req.session.blogger._id);
-            if (blogger.role === 'admin') {
+            user.password = req.body.password;
+            res.cookie('user_side', user._id);
+            req.session.user = user;
+            console.log(req.session.user._id);
+            if (user.role === 'admin') {
 
                 return res.redirect('/admin/dashboard');
             }
@@ -150,16 +162,16 @@ module.exports = new class {
 
 
         } catch (err) {
-            console.log(`not found err:${err}`);
+            console.log(`err of doLogin:${err}`);
         }
     }
 
     doLogout(req, res) {
         res.clearCookie('user_side');
-        console.log(req.session.blogger);
+        console.log(req.session.user);
         req.session.destroy(err => {
             if (err) {
-                return console.log(`can not destroy session err:${err}`);
+                return console.log(`doLogout err => can not destroy session:${err}`);
             };
         });
         res.render('loginPage', { msg: 'you logOut successfully' });
@@ -176,11 +188,10 @@ module.exports = new class {
     async doRegister(req, res, next) {
 
         try {
-            console.log(req.body);
 
             const salt = await bcrypt.genSalt(5);
             const hashedPass = await bcrypt.hash(req.body.password, salt);
-            const user = new Blogger(req.body);
+            const user = new User(req.body);
             user.password = hashedPass;
 
             if (req.file) {
@@ -194,7 +205,7 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of do register:${err}`);
+            console.log(`err of doRegister:${err}`);
         }
 
 
@@ -205,19 +216,19 @@ module.exports = new class {
 
         try {
 
-            if (req.file && req.session.blogger.avatar !== 'avatarDefault.png') {
+            if (req.file && req.session.user.avatar !== 'avatarDefault.png') {
 
-                fs.unlinkSync(path.join(__dirname, `../../public/img/${req.session.blogger.avatar}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${req.session.user.avatar}`));
 
             };
-            req.session.blogger.avatar = req.file.filename;
-            const user = await Blogger.findByIdAndUpdate(req.session.blogger._id, { avatar: req.file.filename });
-            if (req.session.blogger.role === 'admin') {
+            req.session.user.avatar = req.file.filename;
+            const user = await User.findByIdAndUpdate(req.session.user._id, { avatar: req.file.filename });
+            if (req.session.user.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'avatar updated successfully', srcImgBlogger: req.session.blogger.avatar });
+                return res.render('admin/dashboard', { user: req.session.user, msg: 'avatar updated successfully', srcImgUser: req.session.user.avatar });
             };
             req.params.role = 'blogger';
-            res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'avatar updated successfully', srcImgBlogger: req.session.blogger.avatar });
+            res.render('blogger/dashboard', { user: req.session.user, msg: 'avatar updated successfully', srcImgUser: req.session.user.avatar });
         }
         catch (err) {
 
@@ -236,19 +247,19 @@ module.exports = new class {
                 title: req.body.titleArticle,
                 text: req.body.textArticle,
             });
-            newArticle.writer = req.session.blogger.userName;
+            newArticle.writer = req.session.user.userName;
             if (req.file) {
 
                 newArticle.image = req.file.filename;
             };
             const result = await newArticle.save();
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/dashboard', { blogger: req.session.blogger, msg: 'new article created successfully', srcImgBlogger: req.session.blogger.avatar, role: 'admin' });
+                return res.render('admin/dashboard', { user: req.session.user, msg: 'new article created successfully', srcImgUser: req.session.user.avatar, role: 'admin' });
             };
 
             req.params.role = 'blogger';
-            res.render('blogger/dashboard', { blogger: req.session.blogger, msg: 'new article created successfully', srcImgBlogger: req.session.blogger.avatar });
+            res.render('blogger/dashboard', { user: req.session.user, msg: 'new article created successfully', srcImgUser: req.session.user.avatar });
 
         } catch (err) {
 
@@ -258,39 +269,35 @@ module.exports = new class {
     }
 
 
-    async showArticlesOfBlogger(req, res) {
+    async showMyArticles(req, res) {
         try {
 
-            // let page = req.params.page;
-            // let count = req.params.count;
-            // page = 1;
-            // count = 4;
-            const writer = req.session.blogger.userName;
+            const writer = req.session.user.userName;
             const articles = await Article.find({ writer }).sort({ createdAt: -1 });
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
                 req.params.role = 'admin';
-                return res.render('admin/myArticles', { msg: '', articles: articles, role: req.session.blogger.role, role: 'admin' });
+                return res.render('admin/myArticles', { msg: '', articles: articles, role: req.session.user.role, role: 'admin' });
             };
             req.params.role = 'blogger';
 
-            res.render('blogger/myArticles', { msg: '', articles: articles, role: req.session.blogger.role, role: 'admin' });
+            res.render('blogger/myArticles', { msg: '', articles: articles, role: req.session.user.role, role: 'admin' });
 
         } catch (err) {
 
-            console.log(`err of showArticlesOfBlogger:${err}`);
+            console.log(`err of showMyArticles:${err}`);
         }
 
     }
 
 
-    async showWholeArticles(req, res) {
+    async showAllArticles(req, res) {
 
 
         try {
 
-            const writer = req.session.blogger.userName;
+            const writer = req.session.user.userName;
             const articles = await Article.find({}).sort({ createdAt: -1 });
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
 
                 return res.render('admin/allArticles', { msg: '', articles: articles, role: 'admin' });
 
@@ -300,7 +307,7 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of showArticlesOfBlogger:${err}`);
+            console.log(`err of showAllArticles:${err}`);
         }
 
     }
@@ -314,27 +321,25 @@ module.exports = new class {
 
 
             console.log(req.body);
-            const dataArticleTmp = JSON.parse(JSON.stringify(req.body));
-            dataArticleTmp.textArticle = dataArticleTmp.textArticle.trim();
-            const idArticle = dataArticleTmp.idArticle.trim();
+            const dataArticle = JSON.parse(JSON.stringify(req.body));
+            console.log(dataArticle);
+            dataArticle.textArticle = dataArticle.textArticle.trim();
+            const idArticle = dataArticle.idArticle.trim();
             const article = await Article.findById(idArticle);
-            const dataArticle = {};
-
 
             if (req.file) {
-                fs.unlinkSync(path.join(__dirname, `../../public/img/${article.image}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${article.image}`));
                 dataArticle.image = req.file.filename;
             };
-            dataArticle.idArticle = idArticle;
-            console.log(dataArticle);
 
             const updatedArticle = await Article.findByIdAndUpdate(idArticle, {
                 title: dataArticle.titleArticle,
                 text: dataArticle.textArticle,
                 image: dataArticle.image
             });
+            console.log(`updatedArticle:${updatedArticle}`);
             const result = await updatedArticle.save();
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
 
                 return res.redirect('/admin/dashboard/articles/seeMine');
             }
@@ -343,7 +348,7 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of doUpdateInBloggerArticlePage:${err}`);
+            console.log(`err of doUpdateArticle:${err}`);
         }
     }
 
@@ -358,10 +363,10 @@ module.exports = new class {
             const idArticle = req.body.idArticle.trim();
             console.log(idArticle);
             const result = await Article.findByIdAndRemove(idArticle);
-            const articles = await Article.find({ writer: req.session.blogger.userName });
-            fs.unlinkSync(path.join(__dirname, `../../public/img/${result.image}`));
-            console.log(req.session.blogger.role);
-            if (req.session.blogger.role === 'admin') {
+            const articles = await Article.find({ writer: req.session.user.userName });
+            fs.unlinkSync(path.join(__dirname, `../public/img/${result.image}`));
+            console.log(req.session.user.role);
+            if (req.session.user.role === 'admin') {
 
                 return res.render('admin/myArticles', { msg: 'Article Deleted Successfully', articles, role: 'admin' });
             }
@@ -371,13 +376,13 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of doDeleteInBloggerArticlePage:${err}`);
+            console.log(`err of doDeleteArticle:${err}`);
         }
     }
 
 
 
-    async showDetailsOneArticle(req, res) {
+    async seeMoreArticle(req, res) {
 
         try {
 
@@ -385,7 +390,7 @@ module.exports = new class {
             const idArticle = dataArticleTmp.idArticle.trim();
             const article = await Article.findById(idArticle);
             const comment = await Comment.find({ idArticle });
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
                 return res.render('admin/seeMoreArticle', { article, msg: null, comment })
             }
 
@@ -394,7 +399,7 @@ module.exports = new class {
 
         } catch (err) {
 
-            console.log(`err of showDetailsOneArticle:${err}`);
+            console.log(`err of seeMoreArticle:${err}`);
 
         }
 
@@ -409,15 +414,15 @@ module.exports = new class {
 
 
             console.log(req.body);
-            const idBlogger = req.body.idBlogger.trim();
-            const user = await Blogger.findById(idBlogger);
+            const idUser = req.body.idUser.trim();
+            const user = await User.findById(idUser);
             const salt = await bcrypt.genSalt(5);
             console.log('0' + user.phoneNumber);
             const hashedPass = await bcrypt.hash('0' + user.phoneNumber, salt);
             console.log(hashedPass);
-            const updatePass = await Blogger.findByIdAndUpdate(idBlogger, { password: hashedPass });
+            const updatePass = await User.findByIdAndUpdate(idUser, { password: hashedPass });
             const result = updatePass.save();
-            const users = await Blogger.find({ role: { $ne: 'admin' } });
+            const users = await User.find({ role: { $ne: 'admin' } });
             res.render('admin/listOfBloggers', { msg: 'password of user changed to his phoneNumber successfuly', users });
 
         } catch (err) {
@@ -432,7 +437,7 @@ module.exports = new class {
 
             console.log(req.body);
             const deleteArticle = await Article.findByIdAndRemove(req.body.idArticle);
-            fs.unlinkSync(path.join(__dirname, `../../public/img/${deleteArticle.image}`));
+            fs.unlinkSync(path.join(__dirname, `../public/img/${deleteArticle.image}`));
             const articles = await Article.find({});
             return res.render('wholeArticleForAdmin', { msg: 'article deleted succussfully', articles, role: 'admin' });
 
@@ -451,11 +456,11 @@ module.exports = new class {
         try {
             console.log(req.body);
             const text = req.body.comment.trim();
-            const writer = req.session.blogger.userName;
+            const writer = req.session.user.userName;
             const idArticle = req.body.idArticle;
             const comment = await Comment.create({ writer, text, idArticle });
             const article = await Article.findById(idArticle);
-            if (req.session.blogger.role === 'admin') {
+            if (req.session.user.role === 'admin') {
                 return res.redirect('/admin/dashboard/');
             };
 

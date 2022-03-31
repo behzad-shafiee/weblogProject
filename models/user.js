@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const timestamp = require('time-stamp');
 const connection = require('./connection');
 
-const bloggerSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
 
     "firstName": {
         type: String,
@@ -62,9 +62,9 @@ const bloggerSchema = new mongoose.Schema({
 
 
 
-const Blogger = mongoose.model('Blogger', bloggerSchema);
+const User = mongoose.model('User', userSchema);
 
 
 
 
-module.exports = Blogger;
+module.exports = User;

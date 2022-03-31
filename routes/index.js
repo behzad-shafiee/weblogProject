@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const middlewares=require('../middlewares/middlewares');
-const controlers = require('../controllers/controlers');
+const controlers = require('../controllers/controllers');
 
 
 
@@ -20,7 +20,6 @@ router.use('/:role/dashboard',middlewares.isLogin,middlewares.checkIsAdmin,dashb
 
 router.use('/:role/dashboard',middlewares.isLogin,dashboardBloggerRoute);
 
-// router.get('/:role/dashboard',controlers.backDashboar)
 
 router.use('/login',loginRoute);
 router.use('/logout',logoutRoute);
