@@ -41,6 +41,17 @@ html * {
 th{
     font-size: 20px;
 }
+
+.td-writer{
+    width: 120px;
+    
+}
+
+.td-comment{
+    width: 800px ;
+    
+}
+
 .img {
     width: 100%;
     position: absolute;

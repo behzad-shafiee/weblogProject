@@ -129,7 +129,9 @@ module.exports = new class {
 
             console.log(req.body);
             const idBlogger = req.body.idBlogger.trim();
+           
             const user = await User.findByIdAndRemove(idBlogger);
+            const imgSrcBlogger=user.avatar;
             const articles = await Article.find({ writer: user.userName });
             const deleteComment = await Comment.deleteMany({ writer: user.userName })
             const deletedarticles = await Article.deleteMany({ writer: user.userName });
@@ -140,9 +142,9 @@ module.exports = new class {
             }
 
             console.log(req.session.user.avatar);
-            if (req.session.user.avatar !== 'avatarDefault.png') {
+            if (imgSrcBlogger !== 'avatarDefault.png') {
 
-                fs.unlinkSync(path.join(__dirname, `../public/img/${req.session.user.avatar}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${imgSrcBlogger}`));
             };
 
             res.clearCookie('user_side');
