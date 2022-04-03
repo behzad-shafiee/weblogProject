@@ -113,8 +113,7 @@ $('.btn-close-changePassBlogger').click(function (e) {
 $('.btn-delete-blogger').click(function (e) {
 
     let idBlogger = $(this).closest('td').attr('idBlogger');
-    console.log(idBlogger);
-    $(this).siblings('input').val(idBlogger)
+    $(this).siblings('input').val(idBlogger);
 
 });
 

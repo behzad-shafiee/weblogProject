@@ -3,7 +3,7 @@ const router = express.Router();
 
 const controlers = require('../../controllers/controllers');
 const middlewares = require('../../middlewares/middlewares');
-const validatores=require('../../validators/validatores');
+const validatores = require('../../validators/validatores');
 const tools = require('../../tools/tools');
 
 
@@ -18,10 +18,10 @@ router.use('/articles', articles);
 
 
 router.get('/seeBloggers', controlers.showBloggers);
-router.get('/seeComments',controlers.showComments);
-router.post('/seeComments/delete',controlers.doDeleteComment)
+router.get('/seeComments', controlers.showComments);
+router.post('/seeComments/delete', controlers.doDeleteComment);
 router.post('/seeBloggers/changePassBlogger', controlers.doChangePassBlogger);
-router.post('/seeBloggers/deleteBlogger', controlers.doDeleteUser);
+router.post('/seeBloggers/deleteBlogger', controlers.doDeleteBlogger);
 
 router.post('/avatar/update', uploadUpdateAvatar, controlers.doUpdateAvatar);
 

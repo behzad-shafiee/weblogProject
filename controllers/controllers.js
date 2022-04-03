@@ -28,6 +28,7 @@ module.exports = new class {
     }
 
     showDashboard(req, res) {
+        console.log(req.session.user.avatar);
         if (req.session.user.role === 'admin') {
             req.params.role = 'admin';
             return res.render('admin/dashboard', { user: req.session.user, msg: '', srcImgUser: req.session.user.avatar, role: 'admin' });
@@ -89,14 +90,19 @@ module.exports = new class {
 
     async doDeleteUser(req, res) {
         try {
-            console.log(req.body);
+
             const idUser = req.body.idUser.trim()
             const user = await User.findByIdAndRemove(idUser);
-            const role = user.role;
-            console.log(role);
+            const articles = await Article.find({ writer: user.userName });
             const deleteComment = await Comment.deleteMany({ writer: user.userName })
-            const articles = await Article.deleteMany({ writer: user.userName });
+            const deletedarticles = await Article.deleteMany({ writer: user.userName });
 
+            for (const article of articles) {
+                console.log(path.join(__dirname, `./public/img/${article.image}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${article.image}`));
+            }
+
+            
             if (req.session.user.avatar !== 'avatarDefault.png') {
 
                 fs.unlinkSync(path.join(__dirname, `../public/img/${req.session.user.avatar}`));
@@ -109,12 +115,6 @@ module.exports = new class {
                 };
             });
 
-            const users = await User.find({ role: { $ne: 'admin' } });
-            if (role === 'admin') {
-                return res.render('admin/listOfBloggers', { msg: 'user deleted successfully', users });
-            }
-
-
             return res.render('loginPage', { msg: 'you deleted succussfully' });
 
 
@@ -124,7 +124,42 @@ module.exports = new class {
         }
     }
 
+    async doDeleteBlogger(req, res) {
+        try {
 
+            console.log(req.body);
+            const idBlogger = req.body.idBlogger.trim();
+            const user = await User.findByIdAndRemove(idBlogger);
+            const articles = await Article.find({ writer: user.userName });
+            const deleteComment = await Comment.deleteMany({ writer: user.userName })
+            const deletedarticles = await Article.deleteMany({ writer: user.userName });
+
+            for (const article of articles) {
+                console.log(path.join(__dirname, `./public/img/${article.image}`));
+                fs.unlinkSync(path.join(__dirname, `../public/img/${article.image}`));
+            }
+
+            console.log(req.session.user.avatar);
+            if (req.session.user.avatar !== 'avatarDefault.png') {
+
+                fs.unlinkSync(path.join(__dirname, `../public/img/${req.session.user.avatar}`));
+            };
+
+            res.clearCookie('user_side');
+            req.session.destroy(err => {
+                if (err) {
+                    return console.log(`can not destroy session err:${err}`);
+                };
+            });
+            const users = await User.find({ role: { $ne: 'admin' } });
+            res.render('admin/listOfBloggers', { msg: 'user deleted successfully', users });
+
+
+        } catch (err) {
+
+            console.log(`err of doDeleteBlogger:${err}`);
+        }
+    }
 
     showLoginPage(req, res) {
 
@@ -197,6 +232,7 @@ module.exports = new class {
             if (req.file) {
 
                 user.avatar = req.file.filename;
+
             }
 
             const result = await user.save();

@@ -22,67 +22,69 @@
             </h2>
 
             <div class="d-info">
-                <form action='/:role/dashboard/delete' method="post">
-                    <div class="info">
 
-                        <div class="row-info">
-                            <h4>userName:</h4>
-                            <h4 class="position-right">
-                                <%= user.userName %>
-                            </h4>
-                        </div>
-                        <div class="row-info ">
-                            <h4>password:</h4>
-                            <h4 class="position-right">
-                                <%= user.password %>
-                            </h4>
+                <div class="info">
 
-                        </div>
+                    <div class="row-info">
+                        <h4>userName:</h4>
+                        <h4 class="position-right">
+                            <%= user.userName %>
+                        </h4>
+                    </div>
+                    <div class="row-info ">
+                        <h4>password:</h4>
+                        <h4 class="position-right">
+                            <%= user.password %>
+                        </h4>
 
-                        <div class="row-info ">
-                            <h4>lastName:</h4>
-                            <h4 class="position-right">
-                                <%= user.lastName %>
-                            </h4>
-                        </div>
-                        <div class="row-info ">
-                            <h4>firstName:</h4>
-                            <h4 class="position-right">
-                                <%= user.firstName %>
-                            </h4>
-                        </div>
-                        <div class="row-info ">
-                            <h4>phoneNumber:</h4>
+                    </div>
 
-                            <%if((user.phoneNumber)){%>
-                                <h4 class="position-right">
-                                    <%= user.phoneNumber %>
+                    <div class="row-info ">
+                        <h4>lastName:</h4>
+                        <h4 class="position-right">
+                            <%= user.lastName %>
+                        </h4>
+                    </div>
+                    <div class="row-info ">
+                        <h4>firstName:</h4>
+                        <h4 class="position-right">
+                            <%= user.firstName %>
+                        </h4>
+                    </div>
+                    <div class="row-info ">
+                        <h4>phoneNumber:</h4>
+
+                        <%if((user.phoneNumber)){%>
+                            <h4 class="position-right">
+                                <%= user.phoneNumber %>
+                            </h4>
+                            <%}else{ %>
+                                <h4>
+                                    0<%= user.phoneNumber %>
                                 </h4>
-                                <%}else{ %>
-                                    <h4>
-                                        0<%= user.phoneNumber %>
-                                    </h4>
 
-                                    <% } %>
+                                <% } %>
 
-
-                        </div>
-                        <div class="row-info">
-
-                            <h4>gender:</h4>
-                            <h4 class="position-right">
-                                <%= user.gender %>
-                            </h4>
-
-                        </div>
 
                     </div>
-                    <div class="two-btns">
-                        <input style="display: none;" value=" <%= user._id %>" name="idUser"/>
-                        <button class="w-150px btn-update-userInfo w-105px btn btn-success">update</button>
-                        <button type="submit" class="w-150px btn-delete btn btn-danger">delete</button>
+                    <div class="row-info">
+
+                        <h4>gender:</h4>
+                        <h4 class="position-right">
+                            <%= user.gender %>
+                        </h4>
+
                     </div>
-                </form>
+
+                </div>
+                <div class="two-btns">
+                    <button class="w-150px btn-update-userInfo w-105px btn btn-success">update</button>
+                    <form action='/:role/dashboard/delete' method="post">
+                        <input style="display: none;" value=" <%= user._id %>" name="idUser" />
+                        <button type="submit" class="w-150px btn-delete-user btn btn-danger">delete</button>
+                    </form>
+                </div>
+
                 <div class="d-avatar">
                     <img class="avatar" src='/img/<%= srcImgUser%>' alt="avatar">
                     <form action="/:role/dashboard/avatar/update" method="post" enctype="multipart/form-data">
@@ -139,8 +141,8 @@
 
                                     <label class="labels-update" for="userName">userName:</label>
 
-                                    <input class="input-update" value="<%= user.userName %>" type="text"
-                                        id="userName" name="userName" placeholder="userName">
+                                    <input class="input-update" value="<%= user.userName %>" type="text" id="userName"
+                                        name="userName" placeholder="userName">
 
                                 </div>
                                 <div class="countainer-elem-update">
@@ -152,14 +154,14 @@
 
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="firstName">firstName:</label>
-                                    <input class="input-update" value="<%= user.firstName %>" type="text"
-                                        id="firstName" name="firstName" placeholder="firstName">
+                                    <input class="input-update" value="<%= user.firstName %>" type="text" id="firstName"
+                                        name="firstName" placeholder="firstName">
 
                                 </div>
                                 <div class="countainer-elem-update">
                                     <label class="labels-update" for="lastName"> lastName:</label>
-                                    <input class="input-update" value="<%= user.lastName %>" type="text"
-                                        id="lastName" name="lastName" placeholder="lastName">
+                                    <input class="input-update" value="<%= user.lastName %>" type="text" id="lastName"
+                                        name="lastName" placeholder="lastName">
 
                                 </div>
                                 <div class="countainer-elem-update">
