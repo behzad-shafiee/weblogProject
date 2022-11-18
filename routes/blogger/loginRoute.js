@@ -9,9 +9,9 @@ const middlewares = require('../../middlewares/middlewares');
 
 
 
-router.get('/page', middlewares.checkSession, controlers.showLoginPage);
+router.get('/', middlewares.checkSession, controlers.showLoginPage);
 
-router.post('/page/doing',validatores.arrOfvalidateLogin(),validatores.doValidateLogin, controlers.doLogin);
+router.post('/doing',validatores.arrOfvalidateLogin(),validatores.doValidateLogin, controlers.doLogin);
 
 
 

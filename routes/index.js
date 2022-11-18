@@ -11,7 +11,7 @@ const dashboardAdmin=require('./admin/dashboard');
 const dashboardBloggerRoute=require('./blogger/dashboardBloggerRoute');
 const loginRoute=require('./blogger/loginRoute');
 const logoutRoute=require('./blogger/logoutRoute');
-const registerRoute=require('./blogger/registerRoute');
+const registerRoute=require('./blogger/register');
 
 
 

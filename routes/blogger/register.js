@@ -15,9 +15,9 @@ const tools=require('../../tools/tools');
 
 const upload = tools.upload.single('avatar');
 
-router.get('/page', middlewares.checkSession, controlers.showRegisterPage);
+router.get('/', middlewares.checkSession, controlers.showRegisterPage);
 
-router.post('/page/doing',upload,validatores.arrOfvalidateRegister(),validatores.doValidateRegister,controlers.doRegister );
+router.post('/doing',upload,validatores.arrOfvalidateRegister(),validatores.doValidateRegister,controlers.doRegister );
 
 
 

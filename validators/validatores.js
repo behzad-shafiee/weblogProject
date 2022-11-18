@@ -113,11 +113,11 @@ module.exports = new class {
     arrOfvalidateRegister() {
 
         return [
-            body('userName').notEmpty().withMessage("userName is empty").isLength({ min: 2, max: 30 }).withMessage('username must be between 2-30'),
-            body('password').notEmpty().withMessage("password is empty").isLength({ min: 8, max: 15 }).withMessage('password must be between 8-15'),
-            body('firstName').notEmpty().withMessage("firstName is empty").isLength({ min: 2, max: 30 }).withMessage('firstname must be between 2-30'),
-            body('lastName').notEmpty().withMessage("lastName is empty").isLength({ min: 2, max: 30 }).withMessage('lastname must be between 2-30'),
-            body('phoneNumber').notEmpty().withMessage("phoneNumber is empty")
+            body('userName').notEmpty().withMessage("userName must fill.").isLength({ min: 2, max: 30 }).withMessage('username must be between 2-30'),
+            body('password').notEmpty().withMessage("password must fill.").isLength({ min: 8, max: 15 }).withMessage('password must be between 8-15'),
+            body('firstName').notEmpty().withMessage("firstName must fill.").isLength({ min: 2, max: 30 }).withMessage('firstname must be between 2-30'),
+            body('lastName').notEmpty().withMessage("lastName must fill.").isLength({ min: 2, max: 30 }).withMessage('lastname must be between 2-30'),
+            body('phoneNumber').notEmpty().withMessage("phoneNumber must fill.")
         ]
 
     }
@@ -136,7 +136,7 @@ module.exports = new class {
             const phoneNumber = req.body.phoneNumber;
             if (!validator.isMobilePhone(phoneNumber, ['fa-IR'])) {
 
-                return res.render('registerPage', { error: 'phoneNumber must be 11 digit and start with 09..' });
+                return res.render('registerPage', { error: 'phoneNumber form is incorrect.' });
 
             };
 
@@ -150,7 +150,7 @@ module.exports = new class {
             const isExist = await User.findOne({ userName: req.body.userName });
             if (isExist) {
 
-                return res.render('registerPage', { error: 'userName must be uniqe' });
+                return res.render('registerPage', { error: 'userName already exists.' });
 
             }
             next();
@@ -158,6 +158,7 @@ module.exports = new class {
         } catch (err) {
 
             console.log(`err of doValidateRegister:${err}`);
+            throw new Error(err)
         }
 
 

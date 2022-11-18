@@ -55,5 +55,6 @@ app.use('/', mainRoute);
 app.listen(port, () => {
 
     console.log(`server is running on port:${port}`);
-
+    console.log(`for login ===>${process.env.HOST}:${port}/login`);
+    console.log(`for login ===>${process.env.HOST}:${port}/register`);
 })

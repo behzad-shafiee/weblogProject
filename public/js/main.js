@@ -1,7 +1,3 @@
-//delete user
-
-
-
 //modal update userInfo
 $('.btn-update-userInfo').click(function (e) {
     e.preventDefault();
